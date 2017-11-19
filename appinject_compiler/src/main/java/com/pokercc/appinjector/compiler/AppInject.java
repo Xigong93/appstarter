@@ -1,4 +1,4 @@
-package com.pokercc.appinjector;
+package com.pokercc.appinjector.compiler;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

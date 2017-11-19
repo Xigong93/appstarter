@@ -2,9 +2,12 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/ApplicationContextInjecter.iml" filepath="$PROJECT_DIR$/ApplicationContextInjecter.iml" />
-      <module fileurl="file://$PROJECT_DIR$/appInjector/app.iml" filepath="$PROJECT_DIR$/appInjector/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/demo/demo.iml" filepath="$PROJECT_DIR$/demo/demo.iml" />
+      <module fileurl="file://D:\codehub\android\appInjector\appInjector\app.iml" filepath="D:\codehub\android\appInjector\appInjector\app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/appInjector.iml" filepath="$PROJECT_DIR$/appInjector.iml" />
+      <module fileurl="file://$PROJECT_DIR$/appInjector/appInjector-appInjector.iml" filepath="$PROJECT_DIR$/appInjector/appInjector-appInjector.iml" />
+      <module fileurl="file://$PROJECT_DIR$/appinject_compiler/appinject_compiler.iml" filepath="$PROJECT_DIR$/appinject_compiler/appinject_compiler.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mavenlibsample/mavenlibsample.iml" filepath="$PROJECT_DIR$/mavenlibsample/mavenlibsample.iml" />
+      <module fileurl="file://$PROJECT_DIR$/sample/demo.iml" filepath="$PROJECT_DIR$/sample/demo.iml" />
     </modules>
   </component>
 </project>

@@ -1,4 +1,4 @@
-package com.pokercc.appinjector;
+package com.pokercc.mavenlibsample;
 
 import org.junit.Test;
 
@@ -13,10 +13,5 @@ public class ExampleUnitTest {
     @Test
     public void addition_isCorrect() throws Exception {
         assertEquals(4, 2 + 2);
-    }
-
-    @Test
-    public void testGetClasses()throws Exception {
-        Class<AppInject> appInjectClass = AppInject.class;
     }
 }

@@ -9,7 +9,9 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/appInjector" />
-            <option value="$PROJECT_DIR$/demo" />
+            <option value="$PROJECT_DIR$/appinject_compiler" />
+            <option value="$PROJECT_DIR$/mavenlibsample" />
+            <option value="$PROJECT_DIR$/sample" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

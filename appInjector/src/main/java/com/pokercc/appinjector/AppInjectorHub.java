@@ -3,6 +3,7 @@ package com.pokercc.appinjector;
 import android.app.Application;
 import android.util.Log;
 
+import java.lang.ref.WeakReference;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -14,6 +15,9 @@ public final class AppInjectorHub implements IAppInjector {
     private static final String LOG_TAG = "pokercc.AppInjectorHub";
     private final static AppInjectorHub INSTANCE = new AppInjectorHub();
     private final Set<IAppInjector> mIAppInjectorList = new LinkedHashSet<>();
+    private final Set<IWeakAppInjector> mIWeakAppInjectorList = new LinkedHashSet<>();
+
+    private WeakReference<Application> mApplicationWeakReference;
 
     private AppInjectorHub() {
 
@@ -60,18 +64,32 @@ public final class AppInjectorHub implements IAppInjector {
 
     }
 
-    private void addAnnotation() {
-//        getClass().getClassLoader().
+    private void parseAndroidManifest() {
 
     }
 
     @Override
     public void init(Application app) {
+        mApplicationWeakReference = new WeakReference<>(app);
         findAppInject();
         for (IAppInjector appInjector : mIAppInjectorList) {
             Log.i(LOG_TAG, "inject application context to " + appInjector);
             appInjector.init(app);
         }
+        for (IWeakAppInjector weakAppInjector : mIWeakAppInjectorList) {
+            Log.i(LOG_TAG, "inject application context to " + weakAppInjector);
+            weakAppInjector.init(mApplicationWeakReference);
+        }
+    }
+
+
+    /**
+     * 支持注解的packageName,不能全部设置，不然可能会有权限问题，
+     *
+     * @param packageName
+     */
+    public void enablePackage(String... packageName) {
+
     }
 
 }
