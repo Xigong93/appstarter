@@ -1,6 +1,9 @@
 package com.pokercc.appinjector;
 
 import android.app.Application;
+import android.content.Context;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.util.Log;
 
 import java.lang.ref.WeakReference;
@@ -8,6 +11,7 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 /**
+ * 针筒，可能有多个针筒，要注意，避免重复的问题
  * Created by cisco on 2017/11/20.
  */
 
@@ -62,10 +66,28 @@ public final class AppInjectorHub implements IAppInjector {
 
     private void findAppInject() {
 
+        parseAndroidManifest();
     }
 
     private void parseAndroidManifest() {
+        Application context = mApplicationWeakReference.get();
+        getMetaValue(context, context.getString(R.string.AppInjector));
 
+    }
+
+
+    public static String getMetaValue(Context context, String metaKey) {
+        try {
+            PackageManager packageManager = context.getPackageManager();
+            ApplicationInfo applicationInfo = packageManager.getApplicationInfo(context.getPackageName(),
+                    PackageManager.GET_META_DATA);
+            if (applicationInfo.metaData != null) {
+                return applicationInfo.metaData.getString(metaKey);
+            }
+        } catch (PackageManager.NameNotFoundException e) {
+            //ignore
+        }
+        return null;
     }
 
     @Override
