@@ -22,8 +22,7 @@ public class DemoApplication extends Application {
     public void onCreate() {
         super.onCreate();
         AppInjectorHub
-                .Builder
-                .create(this)
+                .newBuilder(this)
                 .supportAndroidManifest()
                 .printProfile(BuildConfig.DEBUG)
                 .addAppInjectorList(APP_INJECTORS)

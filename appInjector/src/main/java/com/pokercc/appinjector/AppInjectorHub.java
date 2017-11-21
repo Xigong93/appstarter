@@ -102,17 +102,16 @@ public final class AppInjectorHub {
             sendEmptyMessageDelayed(0, 5000);
         }
     }
+    public static Builder newBuilder(Application application) {
+        return new Builder(application);
 
+    }
     public static final class Builder {
         private final Application app;
         private final List<AppInjectorWrapper> appInjectorWrapperList = new ArrayList<>();
         private boolean printProfile;
         private boolean supportAndroidManifest;
 
-        public static Builder create(Application application) {
-            return new Builder(application);
-
-        }
 
         public Builder(Application application) {
             checkAppNotNull(application);
@@ -181,6 +180,7 @@ public final class AppInjectorHub {
             checkThread();
             return new AppInjectorHub(this);
         }
+
     }
 
 }
