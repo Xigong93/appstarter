@@ -23,8 +23,9 @@ public class SpUtil {
     @Keep
     @AppInject
     public static class AppInjectorImp implements IAppInjector {
+
         @Override
-        public void init(Application app) {
+        public void onAppCreate(Application app) {
             application = app;
         }
     }

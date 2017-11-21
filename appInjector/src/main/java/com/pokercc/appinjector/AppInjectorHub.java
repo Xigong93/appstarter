@@ -87,12 +87,12 @@ public final class AppInjectorHub {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            Log.i(LOG_TAG, "<< ========================================================");
+            Log.i(LOG_TAG, "<< ======================================================== >>");
             for (Map.Entry<String, AppInjectorWrapper.ProfileInfo> entry : APP_INJECTORS_PROFILE_MAP.entrySet()) {
                 AppInjectorWrapper.ProfileInfo profileInfo = entry.getValue();
                 Log.i(LOG_TAG, profileInfo.toString());
             }
-            Log.i(LOG_TAG, "<< ========================================================");
+            Log.i(LOG_TAG, "<< ======================================================== >>");
 
         }
 

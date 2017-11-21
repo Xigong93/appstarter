@@ -95,16 +95,17 @@ public class AppInjectorWrapper implements IAppInjector {
 
         @Override
         public String toString() {
-            JSONObject jsonObject = new JSONObject();
             try {
-                jsonObject.put("name", this.className)
+                return new JSONObject()
+                        .put("name", this.className)
                         .put("startTime", this.startTime)
                         .put("endTime", this.endTime)
-                        .put("usedTime", this.getUsedTime());
+                        .put("usedTime", this.getUsedTime())
+                        .toString();
             } catch (JSONException e) {
                 e.printStackTrace();
+                return super.toString();
             }
-            return jsonObject.toString();
         }
     }
 }

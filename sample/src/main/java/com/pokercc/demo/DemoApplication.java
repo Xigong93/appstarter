@@ -14,7 +14,7 @@ import java.util.List;
 public class DemoApplication extends Application {
 
     private static final List<String> APP_INJECTORS = Arrays.asList(
-            "com.pokercc.demo.ToastUtil$ToastUtilAppInjector"
+            "com.pokercc.demo.ClassNameToastUtil$ToastUtilAppInjector"
 
     );
 

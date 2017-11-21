@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="com.pokercc.demo.MainActivity">
 
     <Button
@@ -11,8 +12,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="15dp"
-        android:onClick="showToast"
-        android:text="show toast"/>
+        android:onClick="showClassNameToast"
+        android:text="class name"/>
 
 
     <Button
@@ -20,14 +21,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="15dp"
-        android:onClick="showToast"
-        android:text="save config"/>
+        android:onClick="showManifestToast"
+        android:text="Android manifest"/>
 
     <Button
         android:id="@+id/btn_get_sp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="15dp"
-        android:onClick="showToast"
-        android:text="get config"/>
+        android:onClick="showAnnotationToast"
+        android:text="Annotation"/>
 </LinearLayout>

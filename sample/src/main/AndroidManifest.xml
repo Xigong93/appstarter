@@ -10,18 +10,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity"  >
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <!--meta data 不能存放string array 这是个小问题，是在不行，只能用xml了-->
-        <meta-data android:name="@string/AppInjector" android:value="beijing"/>
-        <!--<meta-data android:name="@string/AppInjector" android:value="shanghai"/>-->
-        <!--<appinjectors>-->
-        <!--</appinjectors>-->
+        <meta-data
+            android:name="appinject.com.pokercc.demo.AndroidManifestToastUtil$ToastUtilAppInjector"
+            android:value="com.pokercc.demo.AndroidManifestToastUtil$ToastUtilAppInjector"/>
     </application>
 
 </manifest>

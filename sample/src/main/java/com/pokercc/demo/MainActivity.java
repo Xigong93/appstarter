@@ -1,7 +1,7 @@
 package com.pokercc.demo;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 public class MainActivity extends AppCompatActivity {
@@ -12,7 +12,14 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
     }
 
-    public void showToast(View view) {
-        ToastUtil.show("Hello Google!");
+    public void showClassNameToast(View view) {
+        ClassNameToastUtil.show("Hello Google! " + "showClassNameToast");
+    }
+    public void showManifestToast(View view) {
+        AndroidManifestToastUtil.show("Hello Google! " + "showManifestToast");
+    }
+    public void showAnnotationToast(View view) {
+        AnnotationToastUtil.show("Hello Google! " + "showAnnotationToast");
     }
 }
+

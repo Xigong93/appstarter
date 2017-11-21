@@ -2,15 +2,16 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/android-appInjector.iml" filepath="$PROJECT_DIR$/android-appInjector.iml" />
       <module fileurl="file://D:\codehub\android\appInjector\appInjector\app.iml" filepath="D:\codehub\android\appInjector\appInjector\app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/appInjector/appInjector.iml" filepath="$PROJECT_DIR$/appInjector/appInjector.iml" />
       <module fileurl="file://E:\android\appinjector\appInjector.iml" filepath="E:\android\appinjector\appInjector.iml" />
+      <module fileurl="file://$PROJECT_DIR$/appInjector/appInjector-appInjector.iml" filepath="$PROJECT_DIR$/appInjector/appInjector-appInjector.iml" />
       <module fileurl="file://E:\android\appinjector\appInjector\appInjector-appInjector.iml" filepath="E:\android\appinjector\appInjector\appInjector-appInjector.iml" />
+      <module fileurl="file://$PROJECT_DIR$/appUpdateLibSample/mavenlibsample.iml" filepath="$PROJECT_DIR$/appUpdateLibSample/mavenlibsample.iml" />
       <module fileurl="file://$PROJECT_DIR$/appinject_compiler/appinject_compiler.iml" filepath="$PROJECT_DIR$/appinject_compiler/appinject_compiler.iml" />
       <module fileurl="file://E:\android\appinjector\appinject_compiler\appinject_compiler.iml" filepath="E:\android\appinjector\appinject_compiler\appinject_compiler.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/appinjector.iml" filepath="$PROJECT_DIR$/.idea/appinjector.iml" />
+      <module fileurl="file://D:\codehub\android\appInjector\.idea\appinjector.iml" filepath="D:\codehub\android\appInjector\.idea\appinjector.iml" />
       <module fileurl="file://E:\android\appinjector\sample\demo.iml" filepath="E:\android\appinjector\sample\demo.iml" />
-      <module fileurl="file://$PROJECT_DIR$/mavenlibsample/mavenlibsample.iml" filepath="$PROJECT_DIR$/mavenlibsample/mavenlibsample.iml" />
       <module fileurl="file://E:\android\appinjector\mavenlibsample\mavenlibsample.iml" filepath="E:\android\appinjector\mavenlibsample\mavenlibsample.iml" />
       <module fileurl="file://$PROJECT_DIR$/sample/sample.iml" filepath="$PROJECT_DIR$/sample/sample.iml" />
     </modules>

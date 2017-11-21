@@ -15,7 +15,7 @@ import java.util.List;
 
 public abstract class AbsInjectorFinder implements IAppInjectorFinder {
 
-    private static final String LOG_TAG = "ClassNameInjectorFinder";
+    private static final String LOG_TAG = "AbsInjectorFinder";
 
 
     @Override

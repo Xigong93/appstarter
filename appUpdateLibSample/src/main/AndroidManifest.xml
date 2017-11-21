@@ -1,0 +1,11 @@
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.pokercc.mavenlibsample">
+
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
+    <application>
+        <meta-data
+            android:name="appinject.com.pokercc.mavenlibsample.AppUpdate"
+            android:value="com.pokercc.mavenlibsample.AppUpdate"/>
+    </application>
+</manifest>

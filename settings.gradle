@@ -1,1 +1,1 @@
-include ':appInjector', ':sample', ':appinject_compiler', ':mavenlibsample'
+include ':appInjector', ':sample', ':appinject_compiler', ':appUpdateLibSample'

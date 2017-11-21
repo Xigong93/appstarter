@@ -14,15 +14,17 @@ import com.pokercc.appinjector.IAppInjector;
  */
 
 @Keep
-public class ToastUtil {
+public class AndroidManifestToastUtil {
 
     private static Application application;
 
     @Keep
     public static class ToastUtilAppInjector implements IAppInjector {
+   
         @Override
-        public void init(Application app) {
+        public void onAppCreate(Application app) {
             application = app;
+
         }
     }
 
