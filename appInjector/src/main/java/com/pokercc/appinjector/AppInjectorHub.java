@@ -172,6 +172,7 @@ public final class AppInjectorHub {
                 Log.i(LOG_TAG, "ignore supportAndroidManifest,because this only need set once in an application");
                 return this;
             }
+            supportAndroidManifest = true;
             return addAppInjectorFinder(new ManifestAppInjectorFinder());
         }
 
