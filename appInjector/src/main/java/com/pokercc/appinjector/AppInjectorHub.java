@@ -170,6 +170,7 @@ public final class AppInjectorHub {
         public Builder supportAndroidManifest() {
             if (SUPPORT_ANDROID_MANIFEST.get()) {
                 Log.i(LOG_TAG, "ignore supportAndroidManifest,because this only need set once in an application");
+                return this;
             }
             return addAppInjectorFinder(new ManifestAppInjectorFinder());
         }
