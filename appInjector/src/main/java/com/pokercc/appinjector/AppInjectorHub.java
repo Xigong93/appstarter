@@ -55,6 +55,7 @@ public final class AppInjectorHub {
     public static final class Builder {
         private final Application app;
         private final List<AppInjectorWrapper> appInjectorWrapperList = new ArrayList<>();
+        private boolean printProfile;
 
         public static Builder create(Application application) {
             return new Builder(application);
@@ -79,6 +80,16 @@ public final class AppInjectorHub {
                     appInjectorWrapperList.add(new AppInjectorWrapper(appInjector));
                 }
             }
+            return this;
+        }
+
+        /**
+         * 打印报告
+         *
+         * @return
+         */
+        public Builder printProfile() {
+            this.printProfile = true;
             return this;
         }
 
