@@ -25,6 +25,7 @@ public class DemoApplication extends Application {
                 .Builder
                 .create(this)
                 .supportAndroidManifest()
+                .printProfile(BuildConfig.DEBUG)
                 .addAppInjectorList(APP_INJECTORS)
                 .build()
                 .dispatchAppCreate(this);

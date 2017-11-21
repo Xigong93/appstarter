@@ -1,7 +1,11 @@
 package com.pokercc.appinjector;
 
 import android.app.Application;
+import android.text.TextUtils;
 import android.util.Log;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * Created by Cisco on 2017/11/21.
@@ -14,7 +18,7 @@ public class AppInjectorWrapper implements IAppInjector {
 
     public AppInjectorWrapper(IAppInjector appInjector) {
         this.appInjector = appInjector;
-        this.profileInfo = new ProfileInfo(appInjector.getClass().getName());
+        this.profileInfo = new ProfileInfo(getName());
     }
 
     @Override
@@ -29,12 +33,44 @@ public class AppInjectorWrapper implements IAppInjector {
         return profileInfo;
     }
 
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof AppInjectorWrapper) {
+            return TextUtils.equals(((AppInjectorWrapper) obj).getName(), this.getName());
+        } else {
+            return super.equals(obj);
+        }
+    }
+
+    @Override
+    public int hashCode() {
+        return getName().hashCode();
+    }
+
+    public String getName() {
+        return appInjector.getClass().getName();
+    }
+
     public static class ProfileInfo {
         private long startTime, endTime;
-        private String className;
+        private final String className;
 
         public ProfileInfo(String className) {
             this.className = className;
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (obj instanceof ProfileInfo) {
+                return TextUtils.equals(((ProfileInfo) obj).className, this.className);
+            }
+            return super.equals(obj);
+        }
+
+        @Override
+        public int hashCode() {
+            return className.hashCode();
         }
 
         public long getStartTime() {
@@ -53,9 +89,22 @@ public class AppInjectorWrapper implements IAppInjector {
             this.endTime = endTime;
         }
 
+        public long getUsedTime() {
+            return getEndTime() - getStartTime();
+        }
+
         @Override
         public String toString() {
-            return super.toString();
+            JSONObject jsonObject = new JSONObject();
+            try {
+                jsonObject.put("name", this.className)
+                        .put("startTime", this.startTime)
+                        .put("endTime", this.endTime)
+                        .put("usedTime", this.getUsedTime());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return jsonObject.toString();
         }
     }
 }
