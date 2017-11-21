@@ -7,5 +7,6 @@ import android.app.Application;
  */
 
 public interface IAppInjector {
-    void init(Application app);
+
+    void onAppCreate(Application app);
 }

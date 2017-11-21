@@ -1,13 +1,18 @@
 package com.pokercc.appinjector;
 
 import android.app.Application;
-import android.content.Context;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager;
+import android.os.Looper;
 import android.util.Log;
 
-import java.lang.ref.WeakReference;
+import com.pokercc.appinjector.Injectorfinder.AnnotationAppInjectorFinder;
+import com.pokercc.appinjector.Injectorfinder.ClassNameInjectorFinder;
+import com.pokercc.appinjector.Injectorfinder.IAppInjectorFinder;
+import com.pokercc.appinjector.Injectorfinder.ManifestAppInjectorFinder;
+
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -15,103 +20,77 @@ import java.util.Set;
  * Created by cisco on 2017/11/20.
  */
 
-public final class AppInjectorHub implements IAppInjector {
+public final class AppInjectorHub {
     private static final String LOG_TAG = "pokercc.AppInjectorHub";
-    private final static AppInjectorHub INSTANCE = new AppInjectorHub();
-    private final Set<IAppInjector> mIAppInjectorList = new LinkedHashSet<>();
-    private final Set<IWeakAppInjector> mIWeakAppInjectorList = new LinkedHashSet<>();
 
-    private WeakReference<Application> mApplicationWeakReference;
+    private static final Set<AppInjectorWrapper> APP_INJECTORS = new LinkedHashSet<>();
 
-    private AppInjectorHub() {
 
-    }
-
-    public static AppInjectorHub getInstance() {
-        return INSTANCE;
+    private AppInjectorHub(Builder builder) {
+        APP_INJECTORS.addAll(builder.appInjectorWrapperList);
     }
 
 
-    /**
-     * 通过代码的方式注册AppInjector
-     *
-     * @param classNames AppInjector的类名数组
-     * @throws ClassNotFoundException
-     * @throws IllegalAccessException
-     * @throws InstantiationException
-     */
-    public void registerAppInjectors(String... classNames) throws ClassNotFoundException, IllegalAccessException, InstantiationException {
-        for (int i = 0; classNames != null && i < classNames.length; i++) {
-            Class<?> clazz = Class.forName(classNames[i]);
-            Object injector = clazz.newInstance();
-            if (!(injector instanceof IAppInjector)) {
-                throw new RuntimeException("must implements " + IAppInjector.class.getName());
+    public void dispatchAppCreate(Application app) {
+        checkAppNotNull(app);
+        checkThread();
+        Iterator<AppInjectorWrapper> iterator = APP_INJECTORS.iterator();
+        for (AppInjectorWrapper appInjector = iterator.next(); iterator.hasNext(); iterator.remove()) {
+            appInjector.onAppCreate(app);
+        }
+    }
+
+    private static void checkAppNotNull(Application app) {
+        if (app == null) {
+            throw new NullPointerException("app can't be null");
+        }
+    }
+
+    private static void checkThread() {
+        if (Looper.getMainLooper() != Looper.myLooper()) {
+            throw new RuntimeException("must run on main thread!");
+        }
+    }
+
+    public static final class Builder {
+        private final Application app;
+        private final List<AppInjectorWrapper> appInjectorWrapperList = new ArrayList<>();
+
+        public static Builder create(Application application) {
+            return new Builder(application);
+
+        }
+
+        public Builder(Application application) {
+            checkAppNotNull(application);
+            this.app = application;
+            addAppInjectorFinder(new AnnotationAppInjectorFinder());
+        }
+
+
+        public Builder addAppInjectorList(List<String> appInjectorClassNames) {
+            return addAppInjectorFinder(new ClassNameInjectorFinder(appInjectorClassNames));
+        }
+
+        public Builder addAppInjectorFinder(IAppInjectorFinder appInjectorFinder) {
+            List<IAppInjector> iAppInjectorList = appInjectorFinder.getAppInjectors(app);
+            if (iAppInjectorList != null) {
+                for (IAppInjector appInjector : iAppInjectorList) {
+                    appInjectorWrapperList.add(new AppInjectorWrapper(appInjector));
+                }
             }
-            Log.i(LOG_TAG, "add app injector:" + injector);
-            mIAppInjectorList.add((IAppInjector) injector);
+            return this;
         }
-    }
 
-    public void registerAppInjectorsIgnoreError(String... classNames) {
-        try {
-            registerAppInjectors(classNames);
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
+        public Builder supportAndroidManifest() {
+            return addAppInjectorFinder(new ManifestAppInjectorFinder());
         }
-    }
-
-    private void findAppInject() {
-
-        parseAndroidManifest();
-    }
-
-    private void parseAndroidManifest() {
-        Application context = mApplicationWeakReference.get();
-        getMetaValue(context, context.getString(R.string.AppInjector));
-
-    }
 
 
-    public static String getMetaValue(Context context, String metaKey) {
-        try {
-            PackageManager packageManager = context.getPackageManager();
-            ApplicationInfo applicationInfo = packageManager.getApplicationInfo(context.getPackageName(),
-                    PackageManager.GET_META_DATA);
-            if (applicationInfo.metaData != null) {
-                return applicationInfo.metaData.getString(metaKey);
-            }
-        } catch (PackageManager.NameNotFoundException e) {
-            //ignore
+        public AppInjectorHub build() {
+            checkThread();
+            return new AppInjectorHub(this);
         }
-        return null;
-    }
-
-    @Override
-    public void init(Application app) {
-        mApplicationWeakReference = new WeakReference<>(app);
-        findAppInject();
-        for (IAppInjector appInjector : mIAppInjectorList) {
-            Log.i(LOG_TAG, "inject application context to " + appInjector);
-            appInjector.init(app);
-        }
-        for (IWeakAppInjector weakAppInjector : mIWeakAppInjectorList) {
-            Log.i(LOG_TAG, "inject application context to " + weakAppInjector);
-            weakAppInjector.init(mApplicationWeakReference);
-        }
-    }
-
-
-    /**
-     * 支持注解的packageName,不能全部设置，不然可能会有权限问题，
-     *
-     * @param packageName
-     */
-    public void enablePackage(String... packageName) {
-
     }
 
 }
