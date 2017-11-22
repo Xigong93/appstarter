@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 
+import com.pokercc.appinjector.OnAppCreateMethod;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,12 +14,13 @@ import java.util.List;
  */
 
 public class ManifestAppInjectorFinder extends AbsInjectorFinder {
-    public static final String APP_INJECTOR_PREFIX = "appinject.";
+    public static final String APP_INJECTOR_PREFIX = "appinject://";
 
     @Override
-    protected List<String> getAppInjectorClassNames(Context context) {
+    public List<OnAppCreateMethod> getAppInjectors(Context context) {
 
-        List<String> appInjectorClassNames = new ArrayList<>();
+        List<OnAppCreateMethod> onAppCreateMethods = new ArrayList<>();
+
         try {
             Bundle metaData = context.getPackageManager()
                     .getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA)
@@ -25,13 +28,16 @@ public class ManifestAppInjectorFinder extends AbsInjectorFinder {
             if (metaData != null) {
                 for (String key : metaData.keySet()) {
                     if (key.toLowerCase().startsWith(APP_INJECTOR_PREFIX)) {
-                        appInjectorClassNames.add(metaData.getString(key));
+                        String value = metaData.getString(key, "");
+                        String className = key.substring(APP_INJECTOR_PREFIX.length());
+                        OnAppCreateMethod onAppCreateMethod = new OnAppCreateMethod(className, value.split(" "));
+                        onAppCreateMethods.add(onAppCreateMethod);
                     }
                 }
             }
         } catch (PackageManager.NameNotFoundException e) {
             //ignore
         }
-        return appInjectorClassNames;
+        return onAppCreateMethods;
     }
 }

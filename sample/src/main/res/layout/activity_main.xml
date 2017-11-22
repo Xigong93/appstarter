@@ -24,11 +24,11 @@
         android:onClick="showManifestToast"
         android:text="Android manifest"/>
 
-    <Button
-        android:id="@+id/btn_get_sp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="15dp"
-        android:onClick="showAnnotationToast"
-        android:text="Annotation"/>
+    <!--<Button-->
+        <!--android:id="@+id/btn_get_sp"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_margin="15dp"-->
+        <!--android:onClick="showAnnotationToast"-->
+        <!--android:text="Annotation"/>-->
 </LinearLayout>

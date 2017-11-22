@@ -3,6 +3,7 @@ package com.pokercc.demo;
 import android.app.Application;
 
 import com.pokercc.appinjector.AppInjectorHub;
+import com.pokercc.appinjector.OnAppCreateMethod;
 
 import java.util.Arrays;
 import java.util.List;
@@ -13,9 +14,8 @@ import java.util.List;
 
 public class DemoApplication extends Application {
 
-    private static final List<String> APP_INJECTORS = Arrays.asList(
-            "com.pokercc.demo.ClassNameToastUtil$ToastUtilAppInjector"
-
+    private static final List<OnAppCreateMethod> ON_APP_CREATE_METHODS = Arrays.asList(
+            new OnAppCreateMethod(ClassNameToastUtil.class)
     );
 
     @Override
@@ -25,7 +25,7 @@ public class DemoApplication extends Application {
                 .newBuilder(this)
                 .supportAndroidManifest()
                 .printProfile(BuildConfig.DEBUG)
-                .addAppInjectorList(APP_INJECTORS)
+                .addAppInjectorList(ON_APP_CREATE_METHODS)
                 .build()
                 .dispatchAppCreate(this);
     }

@@ -1,1 +1,4 @@
-include ':appInjector', ':sample', ':appinject_compiler', ':appUpdateLibSample'
+include ':appInjector',
+        ':sample'
+//        ':appinject_compiler',
+//        ':appUpdateLibSample'

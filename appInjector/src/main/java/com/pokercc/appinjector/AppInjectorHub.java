@@ -1,5 +1,6 @@
 package com.pokercc.appinjector;
 
+import android.annotation.SuppressLint;
 import android.app.Application;
 import android.os.Handler;
 import android.os.Looper;
@@ -27,12 +28,13 @@ public final class AppInjectorHub {
 
     private static final Map<String, AppInjectorWrapper.ProfileInfo> APP_INJECTORS_PROFILE_MAP = new LinkedHashMap<>();
 
-
     private final List<AppInjectorWrapper> appInjectorWrappers = new ArrayList<>();
+
+    private static final AtomicBoolean SUPPORT_ANDROID_MANIFEST = new AtomicBoolean();
+
     private boolean printProfile;
 
     private ProfileHandler profileHandler;
-    private static final AtomicBoolean SUPPORT_ANDROID_MANIFEST = new AtomicBoolean();
 
     private AppInjectorHub(Builder builder) {
         this.printProfile = builder.printProfile;
@@ -42,7 +44,7 @@ public final class AppInjectorHub {
 
 
     /**
-     * dispatch application onCreate event,all appInjector's onAppCreate method will be perform
+     * dispatch app onCreate event,all appInjector's onAppCreate method will be perform
      *
      * @param app
      */
@@ -97,15 +99,17 @@ public final class AppInjectorHub {
         }
 
         private void printProfile() {
-            // avoid android library and application both use app inject  print duplication report,so use handler to delay ;
+            // avoid android library and app both use app inject  print duplication report,so use handler to delay ;
             removeCallbacksAndMessages(null);
             sendEmptyMessageDelayed(0, 5000);
         }
     }
+
     public static Builder newBuilder(Application application) {
         return new Builder(application);
 
     }
+
     public static final class Builder {
         private final Application app;
         private final List<AppInjectorWrapper> appInjectorWrapperList = new ArrayList<>();
@@ -123,11 +127,11 @@ public final class AppInjectorHub {
         /**
          * add your appInjectors class name ,reminds your appInjectors cant't be proguard
          *
-         * @param appInjectorClassNames
+         * @param onAppCreateMethods
          * @return
          */
-        public Builder addAppInjectorList(List<String> appInjectorClassNames) {
-            return addAppInjectorFinder(new ClassNameInjectorFinder(appInjectorClassNames));
+        public Builder addAppInjectorList(List<OnAppCreateMethod> onAppCreateMethods) {
+            return addAppInjectorFinder(new ClassNameInjectorFinder(onAppCreateMethods));
         }
 
         /**
@@ -137,10 +141,11 @@ public final class AppInjectorHub {
          * @return
          */
         public Builder addAppInjectorFinder(IAppInjectorFinder appInjectorFinder) {
-            List<IAppInjector> iAppInjectorList = appInjectorFinder.getAppInjectors(app);
-            if (iAppInjectorList != null) {
-                for (IAppInjector appInjector : iAppInjectorList) {
-                    appInjectorWrapperList.add(new AppInjectorWrapper(appInjector));
+            List<OnAppCreateMethod> onAppCreateMethods = appInjectorFinder.getAppInjectors(app);
+//            List<IAppInjector> iAppInjectorList = (List<IAppInjector>) onAppCreateMethods;
+            if (onAppCreateMethods != null) {
+                for (OnAppCreateMethod onAppCreateMethod : onAppCreateMethods) {
+                    appInjectorWrapperList.add(new AppInjectorWrapper(onAppCreateMethod));
                 }
             }
             return this;
@@ -168,7 +173,7 @@ public final class AppInjectorHub {
          */
         public Builder supportAndroidManifest() {
             if (SUPPORT_ANDROID_MANIFEST.get()) {
-                Log.i(LOG_TAG, "ignore supportAndroidManifest,because this only need set once in an application");
+                Log.i(LOG_TAG, "ignore supportAndroidManifest,because this only need set once in an app");
                 return this;
             }
             supportAndroidManifest = true;

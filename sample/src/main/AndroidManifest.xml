@@ -18,8 +18,8 @@
             </intent-filter>
         </activity>
         <meta-data
-            android:name="appinject.com.pokercc.demo.AndroidManifestToastUtil$ToastUtilAppInjector"
-            android:value="com.pokercc.demo.AndroidManifestToastUtil$ToastUtilAppInjector"/>
+            android:name="appinject://com.pokercc.demo.AndroidManifestToastUtil"
+            android:value="debug 5"/>
     </application>
 
 </manifest>

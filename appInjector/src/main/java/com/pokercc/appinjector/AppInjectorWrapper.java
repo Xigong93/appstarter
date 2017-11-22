@@ -11,23 +11,16 @@ import org.json.JSONObject;
  * Created by Cisco on 2017/11/21.
  */
 
-public class AppInjectorWrapper implements IAppInjector {
+public class AppInjectorWrapper implements IAppEntry {
     public static final String LOG_TAG = "AppInjectorWrapper";
-    private final IAppInjector appInjector;
+    private final OnAppCreateMethod mIAppEntry;
     private final ProfileInfo profileInfo;
 
-    public AppInjectorWrapper(IAppInjector appInjector) {
-        this.appInjector = appInjector;
+    public AppInjectorWrapper(OnAppCreateMethod mIAppEntry) {
+        this.mIAppEntry = mIAppEntry;
         this.profileInfo = new ProfileInfo(getName());
     }
 
-    @Override
-    public void onAppCreate(Application app) {
-        profileInfo.setStartTime(System.currentTimeMillis());
-        Log.i(LOG_TAG, "inject app context to " + appInjector);
-        this.appInjector.onAppCreate(app);
-        profileInfo.setEndTime(System.currentTimeMillis());
-    }
 
     public ProfileInfo getProfileInfo() {
         return profileInfo;
@@ -49,7 +42,15 @@ public class AppInjectorWrapper implements IAppInjector {
     }
 
     public String getName() {
-        return appInjector.getClass().getName();
+        return mIAppEntry.getName();
+    }
+
+    @Override
+    public void onAppCreate(Application app) {
+        profileInfo.setStartTime(System.currentTimeMillis());
+        Log.i(LOG_TAG, "dispatch app create  " + mIAppEntry);
+        this.mIAppEntry.onAppCreate(app);
+        profileInfo.setEndTime(System.currentTimeMillis());
     }
 
     public static class ProfileInfo {

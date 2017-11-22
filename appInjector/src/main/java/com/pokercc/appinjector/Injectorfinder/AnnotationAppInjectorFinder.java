@@ -3,6 +3,7 @@ package com.pokercc.appinjector.Injectorfinder;
 import android.content.Context;
 
 import com.pokercc.appinjector.IAppInjector;
+import com.pokercc.appinjector.OnAppCreateMethod;
 
 import java.util.List;
 
@@ -14,7 +15,7 @@ public class AnnotationAppInjectorFinder extends AbsInjectorFinder {
 
 
     @Override
-    protected List<String> getAppInjectorClassNames(Context context) {
+    public List<OnAppCreateMethod> getAppInjectors(Context context) {
         return null;
     }
 }

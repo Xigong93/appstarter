@@ -2,6 +2,8 @@ package com.pokercc.appinjector.Injectorfinder;
 
 import android.content.Context;
 
+import com.pokercc.appinjector.OnAppCreateMethod;
+
 import java.util.List;
 
 /**
@@ -11,15 +13,14 @@ import java.util.List;
 public class ClassNameInjectorFinder extends AbsInjectorFinder {
 
     private static final String LOG_TAG = "ClassNameInjectorFinder";
-    private final List<String> classNameList;
+    private final List<OnAppCreateMethod> onAppCreateMethods;
 
-    public ClassNameInjectorFinder(List<String> classNameList) {
-        this.classNameList = classNameList;
+    public ClassNameInjectorFinder(List<OnAppCreateMethod> onAppCreateMethods) {
+        this.onAppCreateMethods = onAppCreateMethods;
     }
 
     @Override
-    protected List<String> getAppInjectorClassNames(Context context) {
-        return this.classNameList;
-
+    public List<OnAppCreateMethod> getAppInjectors(Context context) {
+        return this.onAppCreateMethods;
     }
 }

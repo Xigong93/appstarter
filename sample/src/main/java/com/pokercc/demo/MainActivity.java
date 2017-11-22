@@ -19,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
         AndroidManifestToastUtil.show("Hello Google! " + "showManifestToast");
     }
     public void showAnnotationToast(View view) {
-        AnnotationToastUtil.show("Hello Google! " + "showAnnotationToast");
+//        AnnotationToastUtil.show("Hello Google! " + "showAnnotationToast");
     }
 }
 

@@ -9,8 +9,6 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/appInjector" />
-            <option value="$PROJECT_DIR$/appUpdateLibSample" />
-            <option value="$PROJECT_DIR$/appinject_compiler" />
             <option value="$PROJECT_DIR$/sample" />
           </set>
         </option>
