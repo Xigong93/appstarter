@@ -1,11 +1,10 @@
-package com.pokercc.appinjector;
+package com.pokercc.appstarter;
 
 import android.app.Application;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
-import java.util.Arrays;
 
 /**
  * Created by cisco on 2017/11/22.

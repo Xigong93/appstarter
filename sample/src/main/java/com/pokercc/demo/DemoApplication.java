@@ -2,8 +2,8 @@ package com.pokercc.demo;
 
 import android.app.Application;
 
-import com.pokercc.appinjector.AppInjectorHub;
-import com.pokercc.appinjector.OnAppCreateMethod;
+import com.pokercc.appstarter.AppStarter;
+import com.pokercc.appstarter.OnAppCreateMethod;
 
 import java.util.Arrays;
 import java.util.List;
@@ -21,7 +21,7 @@ public class DemoApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        AppInjectorHub
+        AppStarter
                 .newBuilder(this)
                 .supportAndroidManifest()
                 .addAppInjectorList(ON_APP_CREATE_METHODS)

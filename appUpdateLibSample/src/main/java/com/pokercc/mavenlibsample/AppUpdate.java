@@ -5,7 +5,7 @@ import android.app.Application;
 import android.os.Handler;
 import android.view.WindowManager;
 
-import com.pokercc.appinjector.OnAppCreate;
+import com.pokercc.appstarter.OnAppCreate;
 
 import java.util.Arrays;
 

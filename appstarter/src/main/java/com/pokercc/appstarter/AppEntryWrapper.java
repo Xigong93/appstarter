@@ -1,4 +1,4 @@
-package com.pokercc.appinjector;
+package com.pokercc.appstarter;
 
 import android.app.Application;
 import android.text.TextUtils;
@@ -8,19 +8,19 @@ import android.util.Log;
  * Created by Cisco on 2017/11/21.
  */
 
-public class AppInjectorWrapper implements IAppEntry {
+public class AppEntryWrapper implements IAppEntry {
 
     private final OnAppCreateMethod mIAppEntry;
 
-    public AppInjectorWrapper(OnAppCreateMethod mIAppEntry) {
+    public AppEntryWrapper(OnAppCreateMethod mIAppEntry) {
         this.mIAppEntry = mIAppEntry;
     }
 
 
     @Override
     public boolean equals(Object obj) {
-        if (obj instanceof AppInjectorWrapper) {
-            return TextUtils.equals(((AppInjectorWrapper) obj).getName(), this.getName());
+        if (obj instanceof AppEntryWrapper) {
+            return TextUtils.equals(((AppEntryWrapper) obj).getName(), this.getName());
         } else {
             return super.equals(obj);
         }
@@ -40,7 +40,7 @@ public class AppInjectorWrapper implements IAppEntry {
         long beginTime = System.currentTimeMillis();
         this.mIAppEntry.onAppCreate(app);
         long endTime = System.currentTimeMillis();
-        Log.i("AppInjector", "start " + mIAppEntry.toString() + " +" + (endTime - beginTime) + "ms");
+        Log.i(AppStarter.LIB_NAME, "start " + mIAppEntry.toString() + " +" + (endTime - beginTime) + "ms");
     }
 
 }

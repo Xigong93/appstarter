@@ -1,8 +1,6 @@
-package com.pokercc.appinjector.Injectorfinder;
+package com.pokercc.appstarter;
 
 import android.content.Context;
-
-import com.pokercc.appinjector.OnAppCreateMethod;
 
 import java.util.List;
 
@@ -10,12 +8,11 @@ import java.util.List;
  * Created by Cisco on 2017/11/21.
  */
 
-public class ClassNameInjectorFinder extends AbsInjectorFinder {
+public class ClassNameAppEntryFinder implements IAppInjectorFinder  {
 
-    private static final String LOG_TAG = "ClassNameInjectorFinder";
     private final List<OnAppCreateMethod> onAppCreateMethods;
 
-    public ClassNameInjectorFinder(List<OnAppCreateMethod> onAppCreateMethods) {
+    public ClassNameAppEntryFinder(List<OnAppCreateMethod> onAppCreateMethods) {
         this.onAppCreateMethods = onAppCreateMethods;
     }
 

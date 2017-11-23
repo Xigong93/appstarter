@@ -1,13 +1,8 @@
-package com.pokercc.appinjector;
+package com.pokercc.appstarter;
 
 import android.app.Application;
 import android.os.Looper;
 import android.util.Log;
-
-import com.pokercc.appinjector.Injectorfinder.AnnotationAppInjectorFinder;
-import com.pokercc.appinjector.Injectorfinder.ClassNameInjectorFinder;
-import com.pokercc.appinjector.Injectorfinder.IAppInjectorFinder;
-import com.pokercc.appinjector.Injectorfinder.ManifestAppInjectorFinder;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -20,16 +15,16 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * Created by cisco on 2017/11/20.
  */
 
-public final class AppInjectorHub {
-    private static final String LOG_TAG = "AppInjectorHub";
+public final class AppStarter {
+    public static final String LIB_NAME = "AppStarter";
 
     private static final Set<String> APP_INJECTOR_SET = new HashSet<>();
 
-    private final List<AppInjectorWrapper> appInjectorWrappers = new ArrayList<>();
+    private final List<AppEntryWrapper> appEntryWrappers = new ArrayList<>();
 
 
-    private AppInjectorHub(Builder builder) {
-        this.appInjectorWrappers.addAll(builder.appInjectorWrapperList);
+    private AppStarter(Builder builder) {
+        this.appEntryWrappers.addAll(builder.appEntryWrapperList);
     }
 
 
@@ -41,7 +36,7 @@ public final class AppInjectorHub {
     public void dispatchAppCreate(Application app) {
         checkAppNotNull(app);
         checkThread();
-        for (AppInjectorWrapper appInjector : appInjectorWrappers) {
+        for (AppEntryWrapper appInjector : appEntryWrappers) {
             if (APP_INJECTOR_SET.contains(appInjector.getName())) {
                 throw new RuntimeException("duplicate register " + appInjector.getName());
             } else {
@@ -72,13 +67,13 @@ public final class AppInjectorHub {
 
     public static final class Builder {
         private final Application app;
-        private final List<AppInjectorWrapper> appInjectorWrapperList = new ArrayList<>();
+        private final List<AppEntryWrapper> appEntryWrapperList = new ArrayList<>();
         private static final AtomicBoolean SUPPORT_ANDROID_MANIFEST = new AtomicBoolean();
 
         public Builder(Application application) {
             checkAppNotNull(application);
             this.app = application;
-            addAppInjectorFinder(new AnnotationAppInjectorFinder());
+
         }
 
 
@@ -89,7 +84,7 @@ public final class AppInjectorHub {
          * @return
          */
         public Builder addAppInjectorList(List<OnAppCreateMethod> onAppCreateMethods) {
-            return addAppInjectorFinder(new ClassNameInjectorFinder(onAppCreateMethods));
+            return addAppInjectorFinder(new ClassNameAppEntryFinder(onAppCreateMethods));
         }
 
         /**
@@ -102,7 +97,7 @@ public final class AppInjectorHub {
             List<OnAppCreateMethod> onAppCreateMethods = appInjectorFinder.getAppInjectors(app);
             if (onAppCreateMethods != null) {
                 for (OnAppCreateMethod onAppCreateMethod : onAppCreateMethods) {
-                    appInjectorWrapperList.add(new AppInjectorWrapper(onAppCreateMethod));
+                    appEntryWrapperList.add(new AppEntryWrapper(onAppCreateMethod));
                 }
             }
             return this;
@@ -114,23 +109,23 @@ public final class AppInjectorHub {
          * such as:
          * <p>
          * <meta-data android:name="appinject.{ppInjectorClassName}" android:value="{appInjectorClassName}/>"/>
-         * only first AppInjectorHub ,enable this
+         * only first AppStarter ,enable this
          *
          * @return
          */
         public Builder supportAndroidManifest() {
             if (SUPPORT_ANDROID_MANIFEST.get()) {
-                Log.i(LOG_TAG, "ignore supportAndroidManifest,because this only need set once in an app");
+                Log.i(LIB_NAME, "ignore supportAndroidManifest,because this only need set once in an app");
                 return this;
             }
             SUPPORT_ANDROID_MANIFEST.compareAndSet(false, true);
-            return addAppInjectorFinder(new ManifestAppInjectorFinder());
+            return addAppInjectorFinder(new ManifestAppEntryFinder());
         }
 
 
-        public AppInjectorHub build() {
+        public AppStarter build() {
             checkThread();
-            return new AppInjectorHub(this);
+            return new AppStarter(this);
         }
 
     }

@@ -6,7 +6,7 @@ import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.widget.Toast;
 
-import com.pokercc.appinjector.OnAppCreate;
+import com.pokercc.appstarter.OnAppCreate;
 
 /**
  * Created by cisco on 2017/11/20.

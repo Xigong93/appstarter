@@ -7,7 +7,7 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.pokercc.appinjector.OnAppCreate;
+import com.pokercc.appstarter.OnAppCreate;
 
 import java.util.Arrays;
 

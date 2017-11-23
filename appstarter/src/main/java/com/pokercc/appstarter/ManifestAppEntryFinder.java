@@ -1,12 +1,11 @@
-package com.pokercc.appinjector.Injectorfinder;
+package com.pokercc.appstarter;
 
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.text.TextUtils;
 
-import com.pokercc.appinjector.OnAppCreateMethod;
-
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,8 +13,7 @@ import java.util.List;
  * Created by Cisco on 2017/11/21.
  */
 
-public class ManifestAppInjectorFinder extends AbsInjectorFinder {
-    public static final String APP_INJECTOR_PREFIX = "appinject://";
+public class ManifestAppEntryFinder implements IAppInjectorFinder  {
 
     @Override
     public List<OnAppCreateMethod> getAppInjectors(Context context) {
@@ -28,10 +26,11 @@ public class ManifestAppInjectorFinder extends AbsInjectorFinder {
                     .metaData;
             if (metaData != null) {
                 for (String key : metaData.keySet()) {
-                    if (key.toLowerCase().startsWith(APP_INJECTOR_PREFIX)) {
+                    URI uri = URI.create(key);
+                    if (uri.getScheme().equalsIgnoreCase(AppStarter.LIB_NAME)) {
                         String value = metaData.getString(key);
-                        String className = key.substring(APP_INJECTOR_PREFIX.length());
-                        OnAppCreateMethod onAppCreateMethod = new OnAppCreateMethod(className, TextUtils.isEmpty(value) ? null : value.split(" "));
+                        String[] args = TextUtils.isEmpty(value) ? null : value.split(" ");
+                        OnAppCreateMethod onAppCreateMethod = new OnAppCreateMethod(uri.getHost(), args);
                         onAppCreateMethods.add(onAppCreateMethod);
                     }
                 }

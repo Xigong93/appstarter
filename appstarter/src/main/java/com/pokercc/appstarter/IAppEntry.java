@@ -1,4 +1,4 @@
-package com.pokercc.appinjector;
+package com.pokercc.appstarter;
 
 import android.app.Application;
 

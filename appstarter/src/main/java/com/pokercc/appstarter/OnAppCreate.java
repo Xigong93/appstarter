@@ -1,4 +1,4 @@
-package com.pokercc.appinjector;
+package com.pokercc.appstarter;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
