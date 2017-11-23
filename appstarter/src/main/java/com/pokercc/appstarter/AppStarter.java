@@ -17,6 +17,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public final class AppStarter {
     public static final String LIB_NAME = "AppStarter";
+    public static final String SCHEME = "appStarter";
 
     private static final Set<String> APP_INJECTOR_SET = new HashSet<>();
 

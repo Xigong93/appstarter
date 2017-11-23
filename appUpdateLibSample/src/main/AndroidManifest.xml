@@ -4,7 +4,7 @@
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <application>
         <meta-data
-            android:name="appinject://com.pokercc.mavenlibsample.AppUpdate"
+            android:name="appStarter://com.pokercc.mavenlibsample.AppUpdate"
             android:value="pokercc pokercc@sina.com" />
     </application>
 </manifest>

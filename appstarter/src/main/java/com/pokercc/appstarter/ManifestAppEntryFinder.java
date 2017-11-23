@@ -13,7 +13,7 @@ import java.util.List;
  * Created by Cisco on 2017/11/21.
  */
 
-public class ManifestAppEntryFinder implements IAppInjectorFinder  {
+public class ManifestAppEntryFinder implements IAppInjectorFinder {
 
     @Override
     public List<OnAppCreateMethod> getAppInjectors(Context context) {
@@ -26,8 +26,8 @@ public class ManifestAppEntryFinder implements IAppInjectorFinder  {
                     .metaData;
             if (metaData != null) {
                 for (String key : metaData.keySet()) {
-                    URI uri = URI.create(key);
-                    if (uri.getScheme().equalsIgnoreCase(AppStarter.LIB_NAME)) {
+                    if (key.startsWith(AppStarter.SCHEME)) {
+                        URI uri = URI.create(key);
                         String value = metaData.getString(key);
                         String[] args = TextUtils.isEmpty(value) ? null : value.split(" ");
                         OnAppCreateMethod onAppCreateMethod = new OnAppCreateMethod(uri.getHost(), args);
