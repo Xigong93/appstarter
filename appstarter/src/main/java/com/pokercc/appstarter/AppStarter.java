@@ -40,10 +40,9 @@ public final class AppStarter {
         for (AppEntryWrapper appInjector : appEntryWrappers) {
             if (APP_INJECTOR_SET.contains(appInjector.getName())) {
                 throw new RuntimeException("duplicate register " + appInjector.getName());
-            } else {
-                appInjector.onAppCreate(app);
-                APP_INJECTOR_SET.add(appInjector.getName());
             }
+            appInjector.onAppCreate(app);
+            APP_INJECTOR_SET.add(appInjector.getName());
         }
 
     }

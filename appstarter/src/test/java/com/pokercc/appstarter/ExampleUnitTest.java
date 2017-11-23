@@ -11,7 +11,6 @@ import static org.junit.Assert.*;
  */
 public class ExampleUnitTest {
 
-    @Setup
     public static void setUp() {
 
     }
@@ -22,6 +21,5 @@ public class ExampleUnitTest {
 
     @Test
     public void testGetClasses()throws Exception {
-        Class<AppInject> appInjectClass = AppInject.class;
     }
 }
