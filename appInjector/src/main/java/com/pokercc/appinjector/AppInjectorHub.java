@@ -1,6 +1,5 @@
 package com.pokercc.appinjector;
 
-import android.annotation.SuppressLint;
 import android.app.Application;
 import android.os.Handler;
 import android.os.Looper;
@@ -54,7 +53,7 @@ public final class AppInjectorHub {
         for (AppInjectorWrapper appInjector : appInjectorWrappers) {
             AppInjectorWrapper.ProfileInfo profileInfo = APP_INJECTORS_PROFILE_MAP.get(appInjector.getName());
             if (profileInfo != null) {
-                throw new AppInjectorException("duplicate " + appInjector.getName());
+                throw new RuntimeException("duplicate " + appInjector.getName());
             } else {
                 appInjector.onAppCreate(app);
                 APP_INJECTORS_PROFILE_MAP.put(appInjector.getName(), appInjector.getProfileInfo());

@@ -3,6 +3,7 @@ package com.pokercc.appinjector.Injectorfinder;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.text.TextUtils;
 
 import com.pokercc.appinjector.OnAppCreateMethod;
 
@@ -28,9 +29,9 @@ public class ManifestAppInjectorFinder extends AbsInjectorFinder {
             if (metaData != null) {
                 for (String key : metaData.keySet()) {
                     if (key.toLowerCase().startsWith(APP_INJECTOR_PREFIX)) {
-                        String value = metaData.getString(key, "");
+                        String value = metaData.getString(key);
                         String className = key.substring(APP_INJECTOR_PREFIX.length());
-                        OnAppCreateMethod onAppCreateMethod = new OnAppCreateMethod(className, value.split(" "));
+                        OnAppCreateMethod onAppCreateMethod = new OnAppCreateMethod(className, TextUtils.isEmpty(value) ? null : value.split(" "));
                         onAppCreateMethods.add(onAppCreateMethod);
                     }
                 }

@@ -2,7 +2,6 @@ package com.pokercc.appinjector.Injectorfinder;
 
 import android.content.Context;
 
-import com.pokercc.appinjector.IAppInjector;
 import com.pokercc.appinjector.OnAppCreateMethod;
 
 import java.util.List;
