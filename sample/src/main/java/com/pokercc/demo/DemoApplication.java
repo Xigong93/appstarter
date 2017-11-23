@@ -24,7 +24,7 @@ public class DemoApplication extends Application {
         AppStarter
                 .newBuilder(this)
                 .supportAndroidManifest()
-                .addAppInjectorList(ON_APP_CREATE_METHODS)
+                .addAppEntryList(ON_APP_CREATE_METHODS)
                 .build()
                 .dispatchAppCreate(this);
     }

@@ -84,8 +84,8 @@ public final class AppStarter {
          * @param onAppCreateMethods
          * @return
          */
-        public Builder addAppInjectorList(List<OnAppCreateMethod> onAppCreateMethods) {
-            return addAppInjectorFinder(new ClassNameAppEntryFinder(onAppCreateMethods));
+        public Builder addAppEntryList(List<OnAppCreateMethod> onAppCreateMethods) {
+            return addAppEntryFinder(new ClassNameAppEntryFinder(onAppCreateMethods));
         }
 
         /**
@@ -94,7 +94,7 @@ public final class AppStarter {
          * @param appInjectorFinder
          * @return
          */
-        public Builder addAppInjectorFinder(IAppInjectorFinder appInjectorFinder) {
+        public Builder addAppEntryFinder(IAppInjectorFinder appInjectorFinder) {
             List<OnAppCreateMethod> onAppCreateMethods = appInjectorFinder.getAppInjectors(app);
             if (onAppCreateMethods != null) {
                 for (OnAppCreateMethod onAppCreateMethod : onAppCreateMethods) {
@@ -120,7 +120,7 @@ public final class AppStarter {
                 return this;
             }
             SUPPORT_ANDROID_MANIFEST.compareAndSet(false, true);
-            return addAppInjectorFinder(new ManifestAppEntryFinder());
+            return addAppEntryFinder(new ManifestAppEntryFinder());
         }
 
 
