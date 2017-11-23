@@ -25,7 +25,11 @@ android {
 dependencies {
     implementation project(':appstarter')
 //    compile project(path: ':appinject_compiler')
-    implementation project(':appUpdateLibSample')
+    try {
+        implementation project(':appUpdateLibSample')
+    } catch (Exception e) {
+        e.printStackTrace()
+    }
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'com.android.support:appcompat-v7:26.1.0'
 }

@@ -1,3 +1,3 @@
-include ':appstarter',
-        ':sample',
-        ':appUpdateLibSample'
+include ':appstarter'
+include ':sample'
+//include ':appUpdateLibSample'
