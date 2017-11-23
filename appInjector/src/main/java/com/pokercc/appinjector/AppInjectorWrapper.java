@@ -9,7 +9,7 @@ import android.util.Log;
  */
 
 public class AppInjectorWrapper implements IAppEntry {
-    public static final String LOG_TAG = "AppInjectorWrapper";
+
     private final OnAppCreateMethod mIAppEntry;
 
     public AppInjectorWrapper(OnAppCreateMethod mIAppEntry) {
@@ -32,7 +32,7 @@ public class AppInjectorWrapper implements IAppEntry {
     }
 
     public String getName() {
-        return mIAppEntry.getName();
+        return mIAppEntry.toString();
     }
 
     @Override
@@ -40,8 +40,7 @@ public class AppInjectorWrapper implements IAppEntry {
         long beginTime = System.currentTimeMillis();
         this.mIAppEntry.onAppCreate(app);
         long endTime = System.currentTimeMillis();
-        Log.i(LOG_TAG, "start " + mIAppEntry.toString() + " [ " + (endTime - beginTime) + "ms ]");
-
+        Log.i("AppInjector", "start " + mIAppEntry.toString() + " +" + (endTime - beginTime) + "ms");
     }
 
 }

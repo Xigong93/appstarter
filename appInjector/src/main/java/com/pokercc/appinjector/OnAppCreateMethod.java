@@ -16,19 +16,11 @@ public class OnAppCreateMethod implements IAppEntry {
     private final String[] args;
     private Method method;
 
-    public OnAppCreateMethod(String className) {
-        this(className, null);
-    }
-
-    public OnAppCreateMethod(Class _class) {
-        this(_class, null);
-    }
-
-    public OnAppCreateMethod(String className, String[] args) {
+    public OnAppCreateMethod(String className, String... args) {
         this(createClass(className), args);
     }
 
-    public OnAppCreateMethod(Class _class, String[] args) {
+    public OnAppCreateMethod(Class _class, String... args) {
         this.className = _class.getName();
         this.args = args;
         for (Method staticMethod : _class.getMethods()) {
@@ -54,15 +46,17 @@ public class OnAppCreateMethod implements IAppEntry {
         }
     }
 
-    public String getName() {
+    @Override
+    public String toString() {
         return className + "#" + method.getName();
     }
 
-    @Override
-    public String toString() {
-        String stringArgs = this.args == null ? "" : Arrays.toString(this.args);
-        return getName() + " ( application, " + stringArgs + " ) ";
-    }
+//    不打印参数了，避免泄露账号和密码
+//    @Override
+//    public String toString() {
+//        String stringArgs = this.args == null ? "" : Arrays.toString(this.args);
+//        return getName() + " ( application, " + stringArgs + " ) ";
+//    }
 
     private void isLegal() {
         if (this.method == null) {
