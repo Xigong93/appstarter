@@ -4,9 +4,6 @@ import android.app.Application;
 import android.text.TextUtils;
 import android.util.Log;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 /**
  * Created by Cisco on 2017/11/21.
  */
@@ -14,16 +11,9 @@ import org.json.JSONObject;
 public class AppInjectorWrapper implements IAppEntry {
     public static final String LOG_TAG = "AppInjectorWrapper";
     private final OnAppCreateMethod mIAppEntry;
-    private final ProfileInfo profileInfo;
 
     public AppInjectorWrapper(OnAppCreateMethod mIAppEntry) {
         this.mIAppEntry = mIAppEntry;
-        this.profileInfo = new ProfileInfo(getName());
-    }
-
-
-    public ProfileInfo getProfileInfo() {
-        return profileInfo;
     }
 
 
@@ -47,66 +37,11 @@ public class AppInjectorWrapper implements IAppEntry {
 
     @Override
     public void onAppCreate(Application app) {
-        profileInfo.setStartTime(System.currentTimeMillis());
-        Log.i(LOG_TAG, "dispatch app create  " + mIAppEntry);
+        long beginTime = System.currentTimeMillis();
         this.mIAppEntry.onAppCreate(app);
-        profileInfo.setEndTime(System.currentTimeMillis());
+        long endTime = System.currentTimeMillis();
+        Log.i(LOG_TAG, "start " + mIAppEntry.toString() + " [ " + (endTime - beginTime) + "ms ]");
+
     }
 
-    public static class ProfileInfo {
-        private long startTime, endTime;
-        private final String className;
-
-        public ProfileInfo(String className) {
-            this.className = className;
-        }
-
-        @Override
-        public boolean equals(Object obj) {
-            if (obj instanceof ProfileInfo) {
-                return TextUtils.equals(((ProfileInfo) obj).className, this.className);
-            }
-            return super.equals(obj);
-        }
-
-        @Override
-        public int hashCode() {
-            return className.hashCode();
-        }
-
-        public long getStartTime() {
-            return startTime;
-        }
-
-        public void setStartTime(long startTime) {
-            this.startTime = startTime;
-        }
-
-        public long getEndTime() {
-            return endTime;
-        }
-
-        public void setEndTime(long endTime) {
-            this.endTime = endTime;
-        }
-
-        public long getUsedTime() {
-            return getEndTime() - getStartTime();
-        }
-
-        @Override
-        public String toString() {
-            try {
-                return new JSONObject()
-                        .put("name", this.className)
-                        .put("startTime", this.startTime)
-                        .put("endTime", this.endTime)
-                        .put("usedTime", this.getUsedTime())
-                        .toString();
-            } catch (JSONException e) {
-                e.printStackTrace();
-                return super.toString();
-            }
-        }
-    }
 }

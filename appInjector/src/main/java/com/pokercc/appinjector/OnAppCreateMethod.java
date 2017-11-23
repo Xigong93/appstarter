@@ -60,7 +60,8 @@ public class OnAppCreateMethod implements IAppEntry {
 
     @Override
     public String toString() {
-        return " >> " + getName() + " args:" + Arrays.toString(this.args);
+        String stringArgs = this.args == null ? "" : Arrays.toString(this.args);
+        return getName() + " ( application, " + stringArgs + " ) ";
     }
 
     private void isLegal() {

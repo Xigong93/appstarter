@@ -1,9 +1,7 @@
 package com.pokercc.appinjector;
 
 import android.app.Application;
-import android.os.Handler;
 import android.os.Looper;
-import android.os.Message;
 import android.util.Log;
 
 import com.pokercc.appinjector.Injectorfinder.AnnotationAppInjectorFinder;
@@ -12,9 +10,9 @@ import com.pokercc.appinjector.Injectorfinder.IAppInjectorFinder;
 import com.pokercc.appinjector.Injectorfinder.ManifestAppInjectorFinder;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 
@@ -25,20 +23,13 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public final class AppInjectorHub {
     private static final String LOG_TAG = "AppInjectorHub";
 
-    private static final Map<String, AppInjectorWrapper.ProfileInfo> APP_INJECTORS_PROFILE_MAP = new LinkedHashMap<>();
+    private static final Set<String> APP_INJECTOR_SET = new HashSet<>();
 
     private final List<AppInjectorWrapper> appInjectorWrappers = new ArrayList<>();
 
-    private static final AtomicBoolean SUPPORT_ANDROID_MANIFEST = new AtomicBoolean();
-
-    private boolean printProfile;
-
-    private ProfileHandler profileHandler;
 
     private AppInjectorHub(Builder builder) {
-        this.printProfile = builder.printProfile;
         this.appInjectorWrappers.addAll(builder.appInjectorWrapperList);
-        SUPPORT_ANDROID_MANIFEST.compareAndSet(false, builder.supportAndroidManifest);
     }
 
 
@@ -51,21 +42,14 @@ public final class AppInjectorHub {
         checkAppNotNull(app);
         checkThread();
         for (AppInjectorWrapper appInjector : appInjectorWrappers) {
-            AppInjectorWrapper.ProfileInfo profileInfo = APP_INJECTORS_PROFILE_MAP.get(appInjector.getName());
-            if (profileInfo != null) {
-                throw new RuntimeException("duplicate " + appInjector.getName());
+            if (APP_INJECTOR_SET.contains(appInjector.getName())) {
+                throw new RuntimeException("duplicate register " + appInjector.getName());
             } else {
                 appInjector.onAppCreate(app);
-                APP_INJECTORS_PROFILE_MAP.put(appInjector.getName(), appInjector.getProfileInfo());
+                APP_INJECTOR_SET.add(appInjector.getName());
             }
         }
 
-        if (this.printProfile) {
-            if (profileHandler == null) {
-                profileHandler = new ProfileHandler();
-            }
-            profileHandler.printProfile();
-        }
     }
 
     private static void checkAppNotNull(Application app) {
@@ -80,29 +64,6 @@ public final class AppInjectorHub {
         }
     }
 
-    private static class ProfileHandler extends Handler {
-        private ProfileHandler() {
-            super(Looper.getMainLooper());
-        }
-
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            Log.i(LOG_TAG, "<< ======================================================== >>");
-            for (Map.Entry<String, AppInjectorWrapper.ProfileInfo> entry : APP_INJECTORS_PROFILE_MAP.entrySet()) {
-                AppInjectorWrapper.ProfileInfo profileInfo = entry.getValue();
-                Log.i(LOG_TAG, profileInfo.toString());
-            }
-            Log.i(LOG_TAG, "<< ======================================================== >>");
-
-        }
-
-        private void printProfile() {
-            // avoid android library and app both use app inject  print duplication report,so use handler to delay ;
-            removeCallbacksAndMessages(null);
-            sendEmptyMessageDelayed(0, 5000);
-        }
-    }
 
     public static Builder newBuilder(Application application) {
         return new Builder(application);
@@ -112,9 +73,7 @@ public final class AppInjectorHub {
     public static final class Builder {
         private final Application app;
         private final List<AppInjectorWrapper> appInjectorWrapperList = new ArrayList<>();
-        private boolean printProfile;
-        private boolean supportAndroidManifest;
-
+        private static final AtomicBoolean SUPPORT_ANDROID_MANIFEST = new AtomicBoolean();
 
         public Builder(Application application) {
             checkAppNotNull(application);
@@ -141,22 +100,11 @@ public final class AppInjectorHub {
          */
         public Builder addAppInjectorFinder(IAppInjectorFinder appInjectorFinder) {
             List<OnAppCreateMethod> onAppCreateMethods = appInjectorFinder.getAppInjectors(app);
-//            List<IAppInjector> iAppInjectorList = (List<IAppInjector>) onAppCreateMethods;
             if (onAppCreateMethods != null) {
                 for (OnAppCreateMethod onAppCreateMethod : onAppCreateMethods) {
                     appInjectorWrapperList.add(new AppInjectorWrapper(onAppCreateMethod));
                 }
             }
-            return this;
-        }
-
-        /**
-         * set true to print profile about appInjects used time
-         *
-         * @return
-         */
-        public Builder printProfile(boolean printProfile) {
-            this.printProfile = printProfile;
             return this;
         }
 
@@ -175,7 +123,7 @@ public final class AppInjectorHub {
                 Log.i(LOG_TAG, "ignore supportAndroidManifest,because this only need set once in an app");
                 return this;
             }
-            supportAndroidManifest = true;
+            SUPPORT_ANDROID_MANIFEST.compareAndSet(false, true);
             return addAppInjectorFinder(new ManifestAppInjectorFinder());
         }
 

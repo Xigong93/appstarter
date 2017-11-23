@@ -24,7 +24,6 @@ public class DemoApplication extends Application {
         AppInjectorHub
                 .newBuilder(this)
                 .supportAndroidManifest()
-                .printProfile(BuildConfig.DEBUG)
                 .addAppInjectorList(ON_APP_CREATE_METHODS)
                 .build()
                 .dispatchAppCreate(this);
