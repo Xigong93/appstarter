@@ -23,7 +23,7 @@ android {
 
 }
 dependencies {
-    implementation project(':appInjector')
+    implementation project(':appstarter')
 //    compile project(path: ':appinject_compiler')
     implementation project(':appUpdateLibSample')
     implementation fileTree(dir: 'libs', include: ['*.jar'])

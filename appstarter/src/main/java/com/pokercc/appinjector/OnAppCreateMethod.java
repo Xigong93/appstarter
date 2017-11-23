@@ -38,6 +38,10 @@ public class OnAppCreateMethod implements IAppEntry {
 
     }
 
+    public String getClassName() {
+        return className;
+    }
+
     public static Class<?> createClass(String className) {
         try {
             return Class.forName(className);
