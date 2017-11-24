@@ -54,12 +54,7 @@ public class OnAppCreateMethod implements IAppEntry {
         return className + "#" + method.getName();
     }
 
-//    不打印参数了，避免泄露账号和密码
-//    @Override
-//    public String toString() {
-//        String stringArgs = this.args == null ? "" : Arrays.toString(this.args);
-//        return getName() + " ( application, " + stringArgs + " ) ";
-//    }
+
 
     private void isLegal() {
         if (this.method == null) {
