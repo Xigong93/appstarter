@@ -21,5 +21,9 @@ public class MainActivity extends AppCompatActivity {
     public void showAnnotationToast(View view) {
 //        AnnotationToastUtil.show("Hello Google! " + "showAnnotationToast");
     }
+
+    public void openOtherProcessActivity(View view) {
+        OtherProcessActivity.start(this);
+    }
 }
 

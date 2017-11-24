@@ -17,9 +17,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <meta-data
             android:name="appStarter://com.pokercc.demo.AndroidManifestToastUtil"
             android:value="debug 5" />
+
+        <activity
+            android:name=".OtherProcessActivity"
+            android:process=":OtherProcess"></activity>
     </application>
 
 </manifest>

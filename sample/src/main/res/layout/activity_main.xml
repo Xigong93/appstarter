@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -13,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="15dp"
         android:onClick="showClassNameToast"
-        android:text="class name"/>
+        android:text="class name" />
 
 
     <Button
@@ -22,13 +21,20 @@
         android:layout_height="wrap_content"
         android:layout_margin="15dp"
         android:onClick="showManifestToast"
-        android:text="Android manifest"/>
+        android:text="Android manifest" />
 
+    <Button
+        android:id="@+id/btn_open_other_process_activity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:onClick="openOtherProcessActivity"
+        android:text="Open Other process activity" />
     <!--<Button-->
-        <!--android:id="@+id/btn_get_sp"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_margin="15dp"-->
-        <!--android:onClick="showAnnotationToast"-->
-        <!--android:text="Annotation"/>-->
+    <!--android:id="@+id/btn_get_sp"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_margin="15dp"-->
+    <!--android:onClick="showAnnotationToast"-->
+    <!--android:text="Annotation"/>-->
 </LinearLayout>

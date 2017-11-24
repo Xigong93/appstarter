@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">demo</string>
+    <string name="other_process_activity">另外一个进程的activity</string>
 </resources>

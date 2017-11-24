@@ -1,7 +1,10 @@
 package com.pokercc.appstarter;
 
+import android.app.ActivityManager;
 import android.app.Application;
+import android.content.Context;
 import android.os.Looper;
+import android.text.TextUtils;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -24,8 +27,12 @@ public final class AppStarter {
     private final List<AppEntryWrapper> appEntryWrappers = new ArrayList<>();
 
 
+    private final boolean supportSubProcess;
+
+
     private AppStarter(Builder builder) {
         this.appEntryWrappers.addAll(builder.appEntryWrapperList);
+        this.supportSubProcess = builder.supportSubProcess;
     }
 
 
@@ -37,6 +44,12 @@ public final class AppStarter {
     public void dispatchAppCreate(Application app) {
         checkAppNotNull(app);
         checkThread();
+
+        // skip other process
+        if (!supportSubProcess && !isAppMainProcess(app)) {
+            Log.i(LIB_NAME, "skip subProcess application create" + getCurrentProcessName(app));
+            return;
+        }
         for (AppEntryWrapper appInjector : appEntryWrappers) {
             if (APP_INJECTOR_SET.contains(appInjector.getName())) {
                 throw new RuntimeException("duplicate register " + appInjector.getName());
@@ -44,6 +57,34 @@ public final class AppStarter {
             appInjector.onAppCreate(app);
             APP_INJECTOR_SET.add(appInjector.getName());
         }
+
+    }
+
+
+    /**
+     * 是否是主进程
+     *
+     * @return
+     */
+    private static boolean isAppMainProcess(Application app) {
+        return TextUtils.equals(getCurrentProcessName(app), app.getApplicationInfo().processName);
+    }
+
+    /**
+     * 获取当前运行的进程名称
+     *
+     * @return
+     */
+    private static String getCurrentProcessName(Application app) {
+        ActivityManager manager = (ActivityManager) app.getSystemService(Context.ACTIVITY_SERVICE);
+        if (manager != null) {
+            for (ActivityManager.RunningAppProcessInfo process : manager.getRunningAppProcesses()) {
+                if (process.pid == android.os.Process.myPid()) {
+                    return process.processName;
+                }
+            }
+        }
+        return null;
 
     }
 
@@ -69,6 +110,7 @@ public final class AppStarter {
         private final Application app;
         private final List<AppEntryWrapper> appEntryWrapperList = new ArrayList<>();
         private static final AtomicBoolean SUPPORT_ANDROID_MANIFEST = new AtomicBoolean();
+        private boolean supportSubProcess;
 
         public Builder(Application application) {
             checkAppNotNull(application);
@@ -120,6 +162,17 @@ public final class AppStarter {
             }
             SUPPORT_ANDROID_MANIFEST.compareAndSet(false, true);
             return addAppEntryFinder(new ManifestAppEntryFinder());
+        }
+
+        /**
+         * enable subProcess Application create
+         * default is false
+         *
+         * @return
+         */
+        public Builder supportSubProcess() {
+            supportSubProcess = true;
+            return this;
         }
 
 
