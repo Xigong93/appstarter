@@ -1,4 +1,4 @@
-package com.pokercc.appstarter;
+package com.pokercc.appstarter.appentry;
 
 /**
  * Created by cisco on 2017/11/25.

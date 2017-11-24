@@ -1,6 +1,8 @@
-package com.pokercc.appstarter;
+package com.pokercc.appstarter.appentry;
 
 import android.app.Application;
+
+import com.pokercc.appstarter.OnAppCreate;
 
 import org.junit.Assert;
 

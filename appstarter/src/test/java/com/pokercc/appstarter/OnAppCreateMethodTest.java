@@ -2,8 +2,9 @@ package com.pokercc.appstarter;
 
 import android.app.Application;
 
-import org.junit.After;
-import org.junit.Before;
+import com.pokercc.appstarter.appentry.NotPublicMethodAppEntry;
+import com.pokercc.appstarter.appentry.TestAppEntry;
+
 import org.junit.Test;
 
 import static org.junit.Assert.assertArrayEquals;
@@ -14,13 +15,7 @@ import static org.junit.Assert.assertTrue;
  * Created by cisco on 2017/11/25.
  */
 public class OnAppCreateMethodTest {
-    @Before
-    public void setUp() throws Exception {
-    }
 
-    @After
-    public void tearDown() throws Exception {
-    }
 
     @Test
     public void testLegalMethod() throws Exception {
@@ -50,9 +45,9 @@ public class OnAppCreateMethodTest {
         assertEquals(NormalAppEntry2.class.getName() + "#onAppCreate", toString);
     }
 
-    @Test
+    @Test(expected = RuntimeException.class)
     public void testNotPublicClass() throws Exception {
-        new OnAppCreateMethod("com.pokercc.appstarter.NotPublicAppEntryHull$NotPublicAppEntry")
+        new OnAppCreateMethod("com.pokercc.appstarter.appentry.NotPublicAppEntryHull$NotPublicAppEntry")
                 .onAppCreate(null);
     }
 
