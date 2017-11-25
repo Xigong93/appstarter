@@ -50,10 +50,23 @@ public class OnAppCreateMethod implements IAppEntry {
     }
 
     @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof OnAppCreateMethod) {
+            return this.toString().equals(obj.toString());
+        } else {
+            return super.equals(obj);
+        }
+    }
+
+    @Override
+    public int hashCode() {
+        return this.toString().hashCode();
+    }
+
+    @Override
     public String toString() {
         return className + "#" + method.getName();
     }
-
 
 
     private void isLegal() {
