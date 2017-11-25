@@ -11,6 +11,9 @@ import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assertWithMessage;
+
 /**
  * Created by cisco on 2017/11/25.
  */
@@ -111,6 +114,15 @@ public class OnAppCreateMethodTest {
 
         assertArrayEquals(new String[]{"1", "2"}, args);
     }
+
+//    @Test
+//    public void testHashCode() {
+//        OnAppCreateMethod onAppCreateMethod1 = new OnAppCreateMethod("com.pokercc.appstarter.ManifestAppEntryFinderTest$NormalAppEntry1");
+//        OnAppCreateMethod onAppCreateMethod2 = new OnAppCreateMethod("com.pokercc.appstarter.ManifestAppEntryFinderTest$NormalAppEntry1");
+//        assertThat(onAppCreateMethod1).isEqualTo(onAppCreateMethod2);
+//        assertThat(onAppCreateMethod1.hashCode()).isEqualTo(onAppCreateMethod2.hashCode());
+//
+//    }
 
     public static class NormalAppEntry1 implements TestAppEntry {
         @OnAppCreate

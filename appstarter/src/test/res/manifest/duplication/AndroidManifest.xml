@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.pokercc.demo">
+
+    <application>
+        <meta-data
+            android:name="appStarter://com.pokercc.appstarter.ManifestAppEntryFinderTest$NormalAppEntry1"
+            android:value="release 5" />
+        <meta-data
+            android:name="appStarter://com.pokercc.appstarter.ManifestAppEntryFinderTest$NormalAppEntry1"
+            android:value="debug 5" />
+
+    </application>
+
+</manifest>

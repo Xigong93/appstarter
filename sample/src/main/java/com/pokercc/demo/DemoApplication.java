@@ -22,6 +22,9 @@ public class DemoApplication extends Application {
 
     private static int startCount = 0;
 
+
+    public static Application application;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -34,5 +37,6 @@ public class DemoApplication extends Application {
                 .dispatchAppCreate(this);
         startCount++;
         Log.i(LOG_TAG, "startCount:" + startCount);
+        application = this;
     }
 }
