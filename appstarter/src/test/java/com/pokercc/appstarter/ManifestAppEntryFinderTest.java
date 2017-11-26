@@ -47,11 +47,11 @@ public class ManifestAppEntryFinderTest {
     public void testNormalFindOnAppCreateMethod() throws Exception {
         List<OnAppCreateMethod> appInjectors = manifestAppEntryFinder.getAppInjectors(app);
         assertThat(appInjectors).isNotNull();
-        assertThat(appInjectors).isNotEmpty();
+        assertThat(appInjectors).isEmpty();
     }
 
     @Test
-    @Config(manifest = "/test/res/manifest/one/AndroidManifest.xml")
+    @Config(manifest = "/appstarter/src/test/res/manifest/one/AndroidManifest.xml")
     public void testFindOneAppCreateMethod() throws Exception {
         List<OnAppCreateMethod> appInjectors = manifestAppEntryFinder.getAppInjectors(app);
         assertThat(appInjectors).isNotNull();
@@ -59,7 +59,7 @@ public class ManifestAppEntryFinderTest {
     }
 
     @Test
-    @Config(manifest = "/test/res/manifest/some/AndroidManifest.xml")
+    @Config(manifest = "/appstarter/src/test/res/manifest/some/AndroidManifest.xml")
     public void testFindSomeAppCreateMethod() throws Exception {
         List<OnAppCreateMethod> appInjectors = manifestAppEntryFinder.getAppInjectors(app);
         assertThat(appInjectors).isNotNull();

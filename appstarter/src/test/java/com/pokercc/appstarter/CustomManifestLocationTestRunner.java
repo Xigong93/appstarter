@@ -4,16 +4,15 @@ import org.junit.runners.model.InitializationError;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 import org.robolectric.internal.BuckManifestFactory;
-import org.robolectric.internal.DefaultManifestFactory;
 import org.robolectric.internal.GradleManifestFactory;
 import org.robolectric.internal.ManifestFactory;
 import org.robolectric.internal.ManifestIdentifier;
 import org.robolectric.internal.MavenManifestFactory;
-import org.robolectric.manifest.AndroidManifest;
 import org.robolectric.res.Fs;
 import org.robolectric.res.FsFile;
 import org.robolectric.util.Logger;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
@@ -94,19 +93,13 @@ public class CustomManifestLocationTestRunner extends RobolectricTestRunner {
             FsFile assetsDir = getFsFileFromPath(properties.getProperty("android_merged_assets"));
             String packageName = properties.getProperty("android_custom_package");
 
-            String manifestPath = config.manifest();
-//            if (Config.NONE.equals(manifestConfig)) {
-//                Logger.info("@Config(manifest = Config.NONE) specified while using Build System API, ignoring");
-//            } else if (!Config.DEFAULT_MANIFEST_NAME.equals(manifestConfig)) {
-//                manifestFile = resolveFile(manifestConfig);
-//            }
-            if (Config.DEFAULT_MANIFEST_NAME.equals(manifestPath) || Config.NONE.equalsIgnoreCase(manifestPath)) {
-                manifestPath = "\\test\\AndroidManifest.xml";
+            FsFile manifestFile = null;
+            if (Config.NONE.equals(config.manifest())) {
+                Logger.info("@Config(manifest = Config.NONE) specified while using Build System API, ignoring");
+            } else if (!Config.DEFAULT_MANIFEST_NAME.equals(config.manifest())) {
+                manifestFile = Fs.newFile(new File(".").getAbsolutePath() + config.manifest());
+                Logger.info("manifestPath:" + manifestFile.getPath());
             }
-            manifestPath = "E:\\android\\app_starter\\appstarter\\src" + manifestPath;
-            System.out.println("manifestPath:" + manifestPath);
-            FsFile manifestFile = Fs.newFile(manifestPath);
-
 
             if (!Config.DEFAULT_RES_FOLDER.equals(config.resourceDir())) {
                 resourcesDir = resolveFile(config.resourceDir());
