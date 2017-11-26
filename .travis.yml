@@ -16,3 +16,4 @@ jdk:
 
 
 script: ./gradlew check connectedCheck --stacktrace
+script: chmod +x gradlew
