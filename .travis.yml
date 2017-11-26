@@ -15,5 +15,5 @@ jdk:
   - oraclejdk8
 
 
-script: ./gradlew check connectedCheck --stacktrace
 script: chmod +x gradlew
+#script: ./gradlew check connectedCheck --stacktrace
