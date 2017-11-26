@@ -13,3 +13,6 @@ android:
 
 jdk:
   - oraclejdk8
+
+
+script: ./gradlew check connectedCheck --stacktrace
