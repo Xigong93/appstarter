@@ -10,9 +10,9 @@ import android.util.Log;
 
 public class AppEntryWrapper implements IAppEntry {
 
-    private final OnAppCreateMethod mIAppEntry;
+    private final AppEntry mIAppEntry;
 
-    public AppEntryWrapper(OnAppCreateMethod mIAppEntry) {
+    public AppEntryWrapper(AppEntry mIAppEntry) {
         this.mIAppEntry = mIAppEntry;
     }
 

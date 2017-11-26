@@ -4,7 +4,7 @@ import android.app.Application;
 import android.util.Log;
 
 import com.pokercc.appstarter.AppStarter;
-import com.pokercc.appstarter.OnAppCreateMethod;
+import com.pokercc.appstarter.AppEntry;
 
 import java.util.Arrays;
 import java.util.List;
@@ -16,8 +16,8 @@ import java.util.List;
 public class DemoApplication extends Application {
 
     public static final String LOG_TAG = "DemoApplication";
-    private static final List<OnAppCreateMethod> ON_APP_CREATE_METHODS = Arrays.asList(
-            new OnAppCreateMethod(ClassNameToastUtil.class)
+    private static final List<AppEntry> ON_APP_CREATE_METHODS = Arrays.asList(
+            new AppEntry(ClassNameToastUtil.class)
     );
 
     private static int startCount = 0;

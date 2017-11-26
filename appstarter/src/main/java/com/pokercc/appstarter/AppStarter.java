@@ -122,11 +122,11 @@ public final class AppStarter {
         /**
          * add your appInjectors class name ,reminds your appInjectors cant't be proguard
          *
-         * @param onAppCreateMethods
+         * @param appEntries
          * @return
          */
-        public Builder addAppEntryList(List<OnAppCreateMethod> onAppCreateMethods) {
-            return addAppEntryFinder(new ClassNameAppEntryFinder(onAppCreateMethods));
+        public Builder addAppEntryList(List<AppEntry> appEntries) {
+            return addAppEntryFinder(new ClassNameAppEntryFinder(appEntries));
         }
 
         /**
@@ -135,11 +135,11 @@ public final class AppStarter {
          * @param appInjectorFinder
          * @return
          */
-        public Builder addAppEntryFinder(IAppInjectorFinder appInjectorFinder) {
-            List<OnAppCreateMethod> onAppCreateMethods = appInjectorFinder.getAppInjectors(app);
-            if (onAppCreateMethods != null) {
-                for (OnAppCreateMethod onAppCreateMethod : onAppCreateMethods) {
-                    appEntryWrapperList.add(new AppEntryWrapper(onAppCreateMethod));
+        public Builder addAppEntryFinder(IAppEntryFinder appInjectorFinder) {
+            List<AppEntry> appEntries = appInjectorFinder.getAppEntries(app);
+            if (appEntries != null) {
+                for (AppEntry appEntry : appEntries) {
+                    appEntryWrapperList.add(new AppEntryWrapper(appEntry));
                 }
             }
             return this;

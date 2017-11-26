@@ -9,7 +9,7 @@ import java.util.List;
  * Created by Cisco on 2017/11/21.
  */
 
-public interface IAppInjectorFinder {
+public interface IAppEntryFinder {
 
-    List<OnAppCreateMethod> getAppInjectors(Context context);
+    List<AppEntry> getAppEntries(Context context);
 }

@@ -2,22 +2,24 @@ package com.pokercc.appstarter;
 
 import android.content.Context;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
  * Created by Cisco on 2017/11/21.
  */
 
-public class ClassNameAppEntryFinder implements IAppInjectorFinder  {
+public class ClassNameAppEntryFinder implements IAppEntryFinder {
 
-    private final List<OnAppCreateMethod> onAppCreateMethods;
+    private final List<AppEntry> mAppEntries;
 
-    public ClassNameAppEntryFinder(List<OnAppCreateMethod> onAppCreateMethods) {
-        this.onAppCreateMethods = onAppCreateMethods;
+    public ClassNameAppEntryFinder(List<AppEntry> appEntries) {
+        this.mAppEntries = appEntries;
+        Collections.sort(this.mAppEntries);
     }
 
     @Override
-    public List<OnAppCreateMethod> getAppInjectors(Context context) {
-        return this.onAppCreateMethods;
+    public List<AppEntry> getAppEntries(Context context) {
+        return this.mAppEntries;
     }
 }

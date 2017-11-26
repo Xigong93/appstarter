@@ -5,43 +5,67 @@ import android.app.Application;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.text.MessageFormat;
 
 /**
  * Created by cisco on 2017/11/22.
  */
 
-public class OnAppCreateMethod implements IAppEntry {
+public class AppEntry implements IAppEntry,Comparable<AppEntry> {
     private final String className;
     private final String[] args;
-    private Method method;
+    private final Method method;
+    private final int order;
 
-    public OnAppCreateMethod(String className, String... args) {
-        this(createClass(className), args);
+    public AppEntry(String className, String... args) {
+        this(className, 0, args);
     }
 
-    public OnAppCreateMethod(Class _class, String... args) {
-        this.className = _class.getName();
+    public AppEntry(String className, int order, String... args) {
+        this(createClass(className), order, args);
+    }
+
+    public AppEntry(Class _class, String... args) {
+        this(_class, 0, args);
+    }
+
+    public AppEntry(Class _class, int order, String... args) {
         this.args = args;
-        for (Method staticMethod : _class.getMethods()) {
-            OnAppCreate onAppCreate = staticMethod.getAnnotation(OnAppCreate.class);
-            if (onAppCreate == null) {
+        this.order = order;
+        this.className = _class.getName();
+        this.method = findOnAppCreateMethod(_class);
+        checkMethod();
+
+    }
+
+    private static Method findOnAppCreateMethod(Class _class) {
+        Method appCreateMethod = null;
+        for (Method m : _class.getMethods()) {
+            OnAppCreate appCreate = m.getAnnotation(OnAppCreate.class);
+            if (appCreate == null) {
                 continue;
-            } else if (this.method != null) {
-                throw new RuntimeException("One class only have on OnAppCreateMethod " + this.toString());
+            }
+
+            if (appCreateMethod != null) {
+                throw new RuntimeException(MessageFormat.format(
+                        "{0} have more than one OnAppCreateMethod : [{1},{2}]", _class.getName(),
+                        appCreateMethod.getName(), m.getName()));
             } else {
-                this.method = staticMethod;
+                appCreateMethod = m;
             }
 
         }
-        isLegal();
-
+        if (appCreateMethod == null) {
+            throw new RuntimeException("OnAppCreateMethod not find in " + _class.getName());
+        }
+        return appCreateMethod;
     }
 
     public String getClassName() {
         return className;
     }
 
-    public static Class<?> createClass(String className) {
+    private static Class<?> createClass(String className) {
         try {
             return Class.forName(className);
         } catch (ClassNotFoundException e) {
@@ -51,7 +75,7 @@ public class OnAppCreateMethod implements IAppEntry {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj instanceof OnAppCreateMethod) {
+        if (obj instanceof AppEntry) {
             return this.toString().equals(obj.toString());
         } else {
             return super.equals(obj);
@@ -65,14 +89,14 @@ public class OnAppCreateMethod implements IAppEntry {
 
     @Override
     public String toString() {
+        if (method == null) {
+            return className;
+        }
         return className + "#" + method.getName();
     }
 
 
-    private void isLegal() {
-        if (this.method == null) {
-            throw new RuntimeException("OnAppCreateMethod not find in " + this.toString());
-        }
+    private void checkMethod() throws RuntimeException {
         if (!Modifier.isStatic(method.getModifiers()) || method.getReturnType() != void.class) {
             throw new RuntimeException("onAppCreateMethod must be public static void " + this.toString());
         }
@@ -99,5 +123,14 @@ public class OnAppCreateMethod implements IAppEntry {
         } catch (InvocationTargetException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public int getOrder() {
+        return order;
+    }
+
+    @Override
+    public int compareTo(AppEntry other) {
+        return this.getOrder()-other.getOrder();
     }
 }

@@ -22,91 +22,91 @@ public class OnAppCreateMethodTest {
 
     @Test
     public void testLegalMethod() throws Exception {
-        new OnAppCreateMethod(getClass(), "1", "2").onAppCreate(null);
-        new OnAppCreateMethod(NormalAppEntry1.class).onAppCreate(null);
-        new OnAppCreateMethod(NormalAppEntry1.class, "1", "2").onAppCreate(null);
+        new AppEntry(getClass(), "1", "2").onAppCreate(null);
+        new AppEntry(NormalAppEntry1.class).onAppCreate(null);
+        new AppEntry(NormalAppEntry1.class, "1", "2").onAppCreate(null);
 
     }
 
     @Test
     public void testLegalMethod2() throws Exception {
-        new OnAppCreateMethod(NormalAppEntry2.class).onAppCreate(null);
-        new OnAppCreateMethod(NormalAppEntry2.class, "1", "2").onAppCreate(null);
+        new AppEntry(NormalAppEntry2.class).onAppCreate(null);
+        new AppEntry(NormalAppEntry2.class, "1", "2").onAppCreate(null);
 
     }
 
     @Test
     public void testGetClassName() {
-        String className = new OnAppCreateMethod(NormalAppEntry2.class).getClassName();
+        String className = new AppEntry(NormalAppEntry2.class).getClassName();
         assertEquals(className, NormalAppEntry2.class.getName());
         assertTrue(className.contains("$"));
     }
 
     @Test
     public void testToString() {
-        String toString = new OnAppCreateMethod(NormalAppEntry2.class).toString();
+        String toString = new AppEntry(NormalAppEntry2.class).toString();
         assertEquals(NormalAppEntry2.class.getName() + "#onAppCreate", toString);
     }
 
     @Test(expected = RuntimeException.class)
     public void testNotPublicClass() throws Exception {
-        new OnAppCreateMethod("com.pokercc.appstarter.appentry.NotPublicAppEntryHull$NotPublicAppEntry")
+        new AppEntry("com.pokercc.appstarter.appentry.NotPublicAppEntryHull$NotPublicAppEntry")
                 .onAppCreate(null);
     }
 
     @Test(expected = RuntimeException.class)
     public void testNotExistsAppEntryClass() throws Exception {
-        new OnAppCreateMethod("com.pokercc.appstarter.NotExistsAppEntry");
+        new AppEntry("com.pokercc.appstarter.NotExistsAppEntry");
     }
 
     @Test(expected = RuntimeException.class)
     public void testNotPublicMethod() throws Exception {
-        new OnAppCreateMethod(NotPublicMethodAppEntry.class);
+        new AppEntry(NotPublicMethodAppEntry.class);
     }
 
     @Test(expected = RuntimeException.class)
     public void testNotStaticMethod() throws Exception {
-        new OnAppCreateMethod(NotStaticMethod.class);
+        new AppEntry(NotStaticMethod.class);
     }
 
     @Test(expected = RuntimeException.class)
     public void testNoAnnotation() throws Exception {
-        new OnAppCreateMethod(NoAnnotation.class);
+        new AppEntry(NoAnnotation.class);
     }
 
     @Test(expected = RuntimeException.class)
     public void testNoParams() throws Exception {
-        new OnAppCreateMethod(NoParamsAppEntry.class);
+        new AppEntry(NoParamsAppEntry.class);
     }
 
     @Test(expected = RuntimeException.class)
     public void testIllegalParams() throws Exception {
-        new OnAppCreateMethod(IllegalParamsClass.class);
+        new AppEntry(IllegalParamsClass.class);
     }
 
     @Test(expected = RuntimeException.class)
     public void testTooMuchParamsClass() throws Exception {
-        new OnAppCreateMethod(TooMuchParamsClass.class);
+        new AppEntry(TooMuchParamsClass.class);
     }
 
     @Test(expected = RuntimeException.class)
     public void testIllegalParams2() throws Exception {
-        new OnAppCreateMethod(IllegalParams2Class.class);
+        new AppEntry(IllegalParams2Class.class);
     }
 
     @Test(expected = RuntimeException.class)
     public void testIllegalParams3() throws Exception {
-        new OnAppCreateMethod(IllegalParams3Class.class);
+        new AppEntry(IllegalParams3Class.class);
     }
 
     @Test(expected = RuntimeException.class)
     public void testNotVoidReturnType() throws Exception {
-        new OnAppCreateMethod(NotVoidReturnType.class);
+        new AppEntry(NotVoidReturnType.class);
     }
 
     @Test(expected = RuntimeException.class)
     public void testMoreThanOneAppCreateMethod() throws Exception {
-        new OnAppCreateMethod(MoreThanOneAppCreateMethod.class);
+        new AppEntry(MoreThanOneAppCreateMethod.class);
     }
 
     @OnAppCreate

@@ -7,24 +7,23 @@ import android.text.TextUtils;
 
 import java.net.URI;
 import java.util.ArrayList;
-import java.util.DuplicateFormatFlagsException;
-import java.util.LinkedHashSet;
+import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 
 /**
+ * find AppEntry in AndroidManifest.xml
+ * like
+ * <meta-data android:name="appStarter://com.pokercc.appstarter.ManifestAppEntryFinderTest$NormalAppEntry1" android:value=""/>
+ * remember an appEntry config must have set android:value ,if not can't get.
  * Created by Cisco on 2017/11/21.
  */
 
-public class ManifestAppEntryFinder implements IAppInjectorFinder {
+public class ManifestAppEntryFinder implements IAppEntryFinder {
+
 
     @Override
-    public List<OnAppCreateMethod> getAppInjectors(Context context) {
-
-        List<OnAppCreateMethod> onAppCreateMethods = new ArrayList<>();
-
-//        Set<OnAppCreateMethod> onAppCreateMethodSet = new LinkedHashSet<>();
-
+    public List<AppEntry> getAppEntries(Context context) {
+        final List<AppEntry> appEntries = new ArrayList<>();
         try {
             Bundle metaData = context.getPackageManager()
                     .getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA)
@@ -39,16 +38,14 @@ public class ManifestAppEntryFinder implements IAppInjectorFinder {
                         }
                         String value = metaData.getString(name);
                         String[] args = TextUtils.isEmpty(value) ? null : value.split(" ");
-                        OnAppCreateMethod onAppCreateMethod = new OnAppCreateMethod(className, args);
-
-
-                        onAppCreateMethods.add(onAppCreateMethod);
+                        appEntries.add(new AppEntry(className, args));
                     }
                 }
             }
         } catch (PackageManager.NameNotFoundException e) {
             //ignore
         }
-        return onAppCreateMethods;
+        Collections.sort(appEntries);
+        return appEntries;
     }
 }

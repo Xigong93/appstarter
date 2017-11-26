@@ -1,17 +1,14 @@
 package com.pokercc.demo;
 
 
-import android.app.Application;
-
 import com.pokercc.appstarter.ManifestAppEntryFinder;
-import com.pokercc.appstarter.OnAppCreateMethod;
+import com.pokercc.appstarter.AppEntry;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
-import org.robolectric.annotation.Config;
 
 import java.util.List;
 
@@ -41,7 +38,7 @@ public class ManifestAppEntryFinderTest {
 //    @Config(manifest = "\\src\\test\\res\\manifest\\one\\AndroidManifest.xml")
 //    @Config(manifest = "E:\\android\\app_starter\\sample\\src\\test\\AndroidManifest.xml")
     public void getAppInjectors() throws Exception {
-        List<OnAppCreateMethod> appInjectors = manifestAppEntryFinder.getAppInjectors(RuntimeEnvironment.application);
+        List<AppEntry> appInjectors = manifestAppEntryFinder.getAppEntries(RuntimeEnvironment.application);
         assertThat(appInjectors).isNotNull();
         assertThat(appInjectors).hasSize(1);
     }
