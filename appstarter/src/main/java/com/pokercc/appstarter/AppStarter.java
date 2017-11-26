@@ -8,6 +8,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -31,7 +32,7 @@ public final class AppStarter {
 
 
     private AppStarter(Builder builder) {
-        this.appEntryWrappers.addAll(builder.appEntryWrapperList);
+        this.appEntryWrappers.addAll(builder.appEntryWrappers);
         this.supportSubProcess = builder.supportSubProcess;
     }
 
@@ -108,9 +109,10 @@ public final class AppStarter {
 
     public static final class Builder {
         private final Application app;
-        private final List<AppEntryWrapper> appEntryWrapperList = new ArrayList<>();
+        private final List<AppEntryWrapper> appEntryWrappers = new ArrayList<>();
         private static final AtomicBoolean SUPPORT_ANDROID_MANIFEST = new AtomicBoolean();
         private boolean supportSubProcess;
+        private boolean enableAndroidManifest = true;
 
         public Builder(Application application) {
             checkAppNotNull(application);
@@ -139,7 +141,7 @@ public final class AppStarter {
             List<AppEntry> appEntries = appInjectorFinder.getAppEntries(app);
             if (appEntries != null) {
                 for (AppEntry appEntry : appEntries) {
-                    appEntryWrapperList.add(new AppEntryWrapper(appEntry));
+                    appEntryWrappers.add(new AppEntryWrapper(appEntry));
                 }
             }
             return this;
@@ -155,7 +157,7 @@ public final class AppStarter {
          *
          * @return
          */
-        public Builder supportAndroidManifest() {
+        private Builder supportAndroidManifest() {
             if (SUPPORT_ANDROID_MANIFEST.get()) {
                 Log.i(LIB_NAME, "ignore supportAndroidManifest,because this only need set once in an app");
                 return this;
@@ -164,13 +166,18 @@ public final class AppStarter {
             return addAppEntryFinder(new ManifestAppEntryFinder());
         }
 
+        public Builder unableAndroidManifest() {
+            this.enableAndroidManifest = false;
+            return this;
+        }
+
         /**
          * enable subProcess Application create
          * default is false
          *
          * @return
          */
-        public Builder supportSubProcess() {
+        public Builder enableSubProcess() {
             supportSubProcess = true;
             return this;
         }
@@ -178,6 +185,10 @@ public final class AppStarter {
 
         public AppStarter build() {
             checkThread();
+            if (this.enableAndroidManifest) {
+                supportAndroidManifest();
+            }
+            Collections.sort(this.appEntryWrappers);
             return new AppStarter(this);
         }
 

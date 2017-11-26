@@ -30,8 +30,8 @@ public class DemoApplication extends Application {
         super.onCreate();
         AppStarter
                 .newBuilder(this)
-                .supportAndroidManifest()
-                .supportSubProcess()
+//                .supportAndroidManifest()
+                .enableSubProcess()
                 .addAppEntryList(ON_APP_CREATE_METHODS)
                 .build()
                 .dispatchAppCreate(this);

@@ -18,14 +18,16 @@ android {
     testOptions {
         unitTests {
             includeAndroidResources = true
+//            setTestResultsDirName('test/res')
         }
     }
-}
 
-sourceSets {
-    test.resources.srcDirs = ['src/test/res', 'src/main/res']
-//    test.resources.
 }
+//sourceSets {
+//    test {
+//        manifest.srcFile 'test/AndroidManifest.xml'
+//    }
+//}
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     testImplementation 'junit:junit:4.12'

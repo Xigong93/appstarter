@@ -11,29 +11,21 @@ import java.text.MessageFormat;
  * Created by cisco on 2017/11/22.
  */
 
-public class AppEntry implements IAppEntry,Comparable<AppEntry> {
+public class AppEntry implements IAppEntry, Comparable<AppEntry> {
     private final String className;
     private final String[] args;
     private final Method method;
     private final int order;
 
     public AppEntry(String className, String... args) {
-        this(className, 0, args);
-    }
-
-    public AppEntry(String className, int order, String... args) {
-        this(createClass(className), order, args);
+        this(createClass(className), args);
     }
 
     public AppEntry(Class _class, String... args) {
-        this(_class, 0, args);
-    }
-
-    public AppEntry(Class _class, int order, String... args) {
         this.args = args;
-        this.order = order;
         this.className = _class.getName();
         this.method = findOnAppCreateMethod(_class);
+        this.order = method.getAnnotation(OnAppCreate.class).order();
         checkMethod();
 
     }
@@ -131,6 +123,6 @@ public class AppEntry implements IAppEntry,Comparable<AppEntry> {
 
     @Override
     public int compareTo(AppEntry other) {
-        return this.getOrder()-other.getOrder();
+        return this.getOrder() - other.getOrder();
     }
 }

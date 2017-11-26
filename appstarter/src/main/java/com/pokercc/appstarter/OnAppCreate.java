@@ -11,5 +11,10 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface OnAppCreate {
-    // TODO: 2017/11/25 增加优先级顺序
+    /**
+     * start appEntries as this order asc
+     *
+     * @return orderNumber
+     */
+    int order() default 0;
 }

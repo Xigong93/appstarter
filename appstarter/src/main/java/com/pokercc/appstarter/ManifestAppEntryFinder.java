@@ -1,6 +1,7 @@
 package com.pokercc.appstarter;
 
 import android.content.Context;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -25,9 +26,10 @@ public class ManifestAppEntryFinder implements IAppEntryFinder {
     public List<AppEntry> getAppEntries(Context context) {
         final List<AppEntry> appEntries = new ArrayList<>();
         try {
-            Bundle metaData = context.getPackageManager()
-                    .getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA)
-                    .metaData;
+            PackageManager pm = context.getPackageManager();
+            String packageName = context.getPackageName();
+            ApplicationInfo applicationInfo = pm.getApplicationInfo(packageName, PackageManager.GET_META_DATA);
+            Bundle metaData = applicationInfo.metaData;
             if (metaData != null) {
                 for (String name : metaData.keySet()) {
                     if (name.startsWith(AppStarter.SCHEME)) {
@@ -45,7 +47,6 @@ public class ManifestAppEntryFinder implements IAppEntryFinder {
         } catch (PackageManager.NameNotFoundException e) {
             //ignore
         }
-        Collections.sort(appEntries);
         return appEntries;
     }
 }

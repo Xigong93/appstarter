@@ -15,7 +15,6 @@ public class ClassNameAppEntryFinder implements IAppEntryFinder {
 
     public ClassNameAppEntryFinder(List<AppEntry> appEntries) {
         this.mAppEntries = appEntries;
-        Collections.sort(this.mAppEntries);
     }
 
     @Override

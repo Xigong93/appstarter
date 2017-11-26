@@ -93,12 +93,16 @@ public class CustomManifestLocationTestRunner extends RobolectricTestRunner {
             FsFile assetsDir = getFsFileFromPath(properties.getProperty("android_merged_assets"));
             String packageName = properties.getProperty("android_custom_package");
 
+            ClassLoader classLoader = getClass().getClassLoader();
+            System.out.println("classLoader = " + classLoader);
             FsFile manifestFile = null;
             if (Config.NONE.equals(config.manifest())) {
                 Logger.info("@Config(manifest = Config.NONE) specified while using Build System API, ignoring");
             } else if (!Config.DEFAULT_MANIFEST_NAME.equals(config.manifest())) {
+                // TODO: 2017/11/26 这个地方还是有问题，如果执行的目录，不是当前目录，会出现问题。
                 manifestFile = Fs.newFile(new File(".").getAbsolutePath() + config.manifest());
                 Logger.info("manifestPath:" + manifestFile.getPath());
+                System.out.println("manifestPath:" + manifestFile.getPath());
             }
 
             if (!Config.DEFAULT_RES_FOLDER.equals(config.resourceDir())) {

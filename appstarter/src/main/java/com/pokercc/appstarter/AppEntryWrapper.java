@@ -8,12 +8,12 @@ import android.util.Log;
  * Created by Cisco on 2017/11/21.
  */
 
-public class AppEntryWrapper implements IAppEntry {
+public class AppEntryWrapper implements IAppEntry,Comparable<AppEntryWrapper> {
 
-    private final AppEntry mIAppEntry;
+    private final AppEntry appEntry;
 
     public AppEntryWrapper(AppEntry mIAppEntry) {
-        this.mIAppEntry = mIAppEntry;
+        this.appEntry = mIAppEntry;
     }
 
 
@@ -32,15 +32,19 @@ public class AppEntryWrapper implements IAppEntry {
     }
 
     public String getName() {
-        return mIAppEntry.toString();
+        return appEntry.toString();
     }
 
     @Override
     public void onAppCreate(Application app) {
         long beginTime = System.currentTimeMillis();
-        this.mIAppEntry.onAppCreate(app);
+        this.appEntry.onAppCreate(app);
         long endTime = System.currentTimeMillis();
-        Log.i(AppStarter.LIB_NAME, "start " + mIAppEntry.toString() + " +" + (endTime - beginTime) + "ms");
+        Log.i(AppStarter.LIB_NAME, "start " + appEntry.toString() + " +" + (endTime - beginTime) + "ms");
     }
 
+    @Override
+    public int compareTo(AppEntryWrapper other) {
+        return this.appEntry.compareTo(other.appEntry);
+    }
 }

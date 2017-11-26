@@ -2,11 +2,9 @@ package com.pokercc.appstarter;
 
 import android.app.Application;
 
-import com.google.common.truth.IterableSubject;
 import com.pokercc.appstarter.appentry.TestAppEntry;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RuntimeEnvironment;
@@ -33,6 +31,15 @@ public class ManifestAppEntryFinderTest {
         app = RuntimeEnvironment.application;
     }
 
+
+    @Test
+    public void testUri() {
+//        URI uri = URI.create("appStarter://com.pokercc.appstarter.ManifestAppEntryFinderTest$NormalAppEntry1:10001");
+//        URI uri = URI.create("appStarter://com.pokercc.appstarter.ManifestAppEntryFinderTest:10001");
+//        assertThat(uri.getScheme()).isEqualTo("appStarter");
+//        assertThat(uri.getHost()).isEqualTo("com.pokercc.appstarter.ManifestAppEntryFinderTest$NormalAppEntry1");
+//        assertThat(uri.getPort()).isEqualTo(10001);
+    }
 
     @Test
     public void testNormalFindOnAppCreateMethod() throws Exception {
@@ -63,7 +70,7 @@ public class ManifestAppEntryFinderTest {
      * @throws Exception
      */
     @Test
-    @Ignore
+//    @Ignore
     @Config(manifest = "/appstarter/src/test/res/manifest/order/AndroidManifest.xml")
     public void testManifestAsOrder() throws Exception {
         List<AppEntry> appInjectors = manifestAppEntryFinder.getAppEntries(app);
@@ -73,7 +80,7 @@ public class ManifestAppEntryFinderTest {
         for (int i = 0; i < appInjectors.size(); i++) {
             AppEntry appEntry = appInjectors.get(i);
             assertThat(appEntry.getClassName())
-                    .isEqualTo("com.pokercc.appstarter.ManifestAppEntryFinderTest.NormalAppEntry" + (i + 1));
+                    .isEqualTo("com.pokercc.appstarter.ManifestAppEntryFinderTest$NormalAppEntry" + (i + 1));
         }
     }
 
@@ -89,37 +96,37 @@ public class ManifestAppEntryFinderTest {
 
 
     public static class NormalAppEntry1 implements TestAppEntry {
-        @OnAppCreate
+        @OnAppCreate(order = 1)
         public static void onAppCreate(Application application) {
         }
     }
 
     public static class NormalAppEntry2 implements TestAppEntry {
-        @OnAppCreate
+        @OnAppCreate(order = 2)
         public static void onAppCreate(Application application, String... arg) {
         }
     }
 
     public static class NormalAppEntry3 implements TestAppEntry {
-        @OnAppCreate
+        @OnAppCreate(order = 3)
         public static void onAppCreate(Application application, String... arg) {
         }
     }
 
     public static class NormalAppEntry4 implements TestAppEntry {
-        @OnAppCreate
+        @OnAppCreate(order = 4)
         public static void onAppCreate(Application application, String... arg) {
         }
     }
 
     public static class NormalAppEntry5 implements TestAppEntry {
-        @OnAppCreate
+        @OnAppCreate(order = 5)
         public static void onAppCreate(Application application, String... arg) {
         }
     }
 
     public static class NormalAppEntry6 implements TestAppEntry {
-        @OnAppCreate
+        @OnAppCreate(order = 6)
         public static void onAppCreate(Application application, String... arg) {
         }
     }
