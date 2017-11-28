@@ -3,12 +3,11 @@ package com.pokercc.appstarter;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 
-import java.net.URI;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -33,8 +32,8 @@ public class ManifestAppEntryFinder implements IAppEntryFinder {
             if (metaData != null) {
                 for (String name : metaData.keySet()) {
                     if (name.startsWith(AppStarter.SCHEME)) {
-                        URI uri = URI.create(name);
-                        String className = uri.getRawAuthority();
+                        Uri uri = Uri.parse(name);
+                        String className = uri.getHost();
                         if (TextUtils.isEmpty(className)) {
                             throw new RuntimeException("className not find in " + name);
                         }

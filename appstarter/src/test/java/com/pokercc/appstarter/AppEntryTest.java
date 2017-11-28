@@ -7,18 +7,44 @@ import com.pokercc.appstarter.appentry.TestAppEntry;
 
 import org.junit.Test;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
+import static com.google.common.truth.Truth.assertThat;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-
-import static com.google.common.truth.Truth.assertThat;
-import static com.google.common.truth.Truth.assertWithMessage;
 
 /**
  * Created by cisco on 2017/11/25.
  */
 public class AppEntryTest {
 
+
+    @Test
+    public void testCompareTo() {
+        AppEntry appEntry1 = new AppEntry(getClass());
+        AppEntry appEntry2 = new AppEntry(getClass());
+        assertThat(appEntry1.compareTo(appEntry2)).isEqualTo(0);
+        assertThat(appEntry2.compareTo(appEntry1)).isEqualTo(0);
+
+        AppEntryOrder1 appEntryOrder1 = new AppEntryOrder1();
+        AppEntryOrder2 appEntryOrder2 = new AppEntryOrder2();
+    }
+
+    @Test
+    public void testCompareTo2() {
+
+        AppEntry appEntry1 = new AppEntry(AppEntryOrder1.class);
+        AppEntry appEntry2 = new AppEntry(AppEntryOrder2.class);
+        List<AppEntry> appEntries = Arrays.asList(appEntry2, appEntry1);
+        Collections.sort(appEntries);
+        assertThat(appEntries.get(0)).isEqualTo(appEntry1);
+        assertThat(appEntry1.compareTo(appEntry2)).isEqualTo(-1);
+        assertThat(appEntry2.compareTo(appEntry1)).isEqualTo(1);
+
+    }
 
     @Test
     public void testLegalMethod() throws Exception {
@@ -202,6 +228,20 @@ public class AppEntryTest {
 
         }
 
+    }
+
+    public static class AppEntryOrder1 {
+        @OnAppCreate(order = 1)
+        public static void onAppCreate(Application application) {
+
+        }
+    }
+
+    public static class AppEntryOrder2 {
+        @OnAppCreate(order = 2)
+        public static void onAppCreate(Application application) {
+
+        }
     }
 
 }
