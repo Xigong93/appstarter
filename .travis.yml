@@ -18,5 +18,5 @@ jdk:
 script:
  - chmod +x gradlew
  # 执行单元测试
-# - gradlew test
+ - gradlew test
 #script: ./gradlew check connectedCheck --stacktrace
