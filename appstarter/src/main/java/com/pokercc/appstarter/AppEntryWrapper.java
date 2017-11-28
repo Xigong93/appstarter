@@ -8,7 +8,7 @@ import android.util.Log;
  * Created by Cisco on 2017/11/21.
  */
 
-public class AppEntryWrapper implements IAppEntry,Comparable<AppEntryWrapper> {
+public class AppEntryWrapper implements IAppEntry, Comparable<AppEntryWrapper> {
 
     private final AppEntry appEntry;
 
@@ -31,8 +31,9 @@ public class AppEntryWrapper implements IAppEntry,Comparable<AppEntryWrapper> {
         return getName().hashCode();
     }
 
+    @Override
     public String getName() {
-        return appEntry.toString();
+        return appEntry.getName();
     }
 
     @Override
@@ -40,7 +41,7 @@ public class AppEntryWrapper implements IAppEntry,Comparable<AppEntryWrapper> {
         long beginTime = System.currentTimeMillis();
         this.appEntry.onAppCreate(app);
         long endTime = System.currentTimeMillis();
-        Log.i(AppStarter.LIB_NAME, "start " + appEntry.toString() + " +" + (endTime - beginTime) + "ms");
+        Log.i(AppStarter.LIB_NAME, "start " + getName() + " +" + (endTime - beginTime) + "ms");
     }
 
     @Override

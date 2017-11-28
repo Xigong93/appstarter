@@ -81,10 +81,7 @@ public class AppEntry implements IAppEntry, Comparable<AppEntry> {
 
     @Override
     public String toString() {
-        if (method == null) {
-            return className;
-        }
-        return className + "#" + method.getName();
+        return getName();
     }
 
 
@@ -115,6 +112,14 @@ public class AppEntry implements IAppEntry, Comparable<AppEntry> {
         } catch (InvocationTargetException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public String getName() {
+        if (method == null) {
+            return className;
+        }
+        return className + "#" + method.getName();
     }
 
     public int getOrder() {

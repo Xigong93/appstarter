@@ -17,7 +17,7 @@ import static com.google.common.truth.Truth.assertWithMessage;
 /**
  * Created by cisco on 2017/11/25.
  */
-public class OnAppCreateMethodTest {
+public class AppEntryTest {
 
 
     @Test

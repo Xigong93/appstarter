@@ -8,4 +8,6 @@ import android.app.Application;
 
 public interface IAppEntry {
     void onAppCreate(Application app);
+
+    String getName();
 }

@@ -15,5 +15,8 @@ jdk:
   - oraclejdk8
 
 
-script: chmod +x gradlew
+script:
+ - chmod +x gradlew
+ # 执行单元测试
+# - gradlew test
 #script: ./gradlew check connectedCheck --stacktrace

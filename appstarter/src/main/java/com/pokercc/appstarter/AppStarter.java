@@ -132,13 +132,13 @@ public final class AppStarter {
         }
 
         /**
-         * add appInjectorFinder to find your AppInjectors
+         * add appEntryFinder to find your AppInjectors
          *
-         * @param appInjectorFinder
+         * @param appEntryFinder
          * @return
          */
-        public Builder addAppEntryFinder(IAppEntryFinder appInjectorFinder) {
-            List<AppEntry> appEntries = appInjectorFinder.getAppEntries(app);
+        public Builder addAppEntryFinder(IAppEntryFinder appEntryFinder) {
+            List<AppEntry> appEntries = appEntryFinder.getAppEntries(app);
             if (appEntries != null) {
                 for (AppEntry appEntry : appEntries) {
                     appEntryWrappers.add(new AppEntryWrapper(appEntry));
