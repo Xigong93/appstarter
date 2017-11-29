@@ -38,8 +38,7 @@ public class ManifestAppEntryFinder implements IAppEntryFinder {
                             throw new RuntimeException("className not find in " + name);
                         }
                         String value = metaData.getString(name);
-                        String[] args = TextUtils.isEmpty(value) ? null : value.split(" ");
-                        appEntries.add(new AppEntry(className, args));
+                        appEntries.add(new AppEntry(className, parseArgs(value)));
                     }
                 }
             }
@@ -47,5 +46,19 @@ public class ManifestAppEntryFinder implements IAppEntryFinder {
             //ignore
         }
         return appEntries;
+    }
+
+
+    private String[] parseArgs(String argsStr) {
+        if (TextUtils.isEmpty(argsStr)) {
+            return null;
+        }
+        final List<String> args = new ArrayList<>();
+        for (String s : argsStr.split(" ")) {
+            if (!TextUtils.isEmpty(s)) {
+                args.add(s);
+            }
+        }
+        return args.toArray(new String[]{});
     }
 }
