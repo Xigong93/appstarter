@@ -20,7 +20,7 @@ public class AndroidManifestToastUtil {
     @OnAppCreate
     public static void onAppCreate(Application app) {
         application = app;
-
+        //testtest
     }
 
     ;
